@@ -33,9 +33,9 @@ Enter the release date "YYYY.MM.DD" of the specific version you want to install.
 
 To install this plugin manually, enter either of the URLs below in the Enter URL field of the Plugins page.  The URL below will either install the latest or a specific version you choose.
 
-Latest version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-plus.plg
+Latest version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-plus-next.plg
 
-Specific version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-plus.plg
+Specific version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-plus-next.plg
 
 Enter the release date "YYYY.MM.DD" of the specific version you want to install.  Be sure to keep the "v" before the release date.
 
@@ -43,8 +43,8 @@ Enter the release date "YYYY.MM.DD" of the specific version you want to install.
 
 To install this plugin manually, enter either of the URLs below in the Enter URL field of the Plugins page.  The URL below will either install the latest or a specific version you choose.
 
-Latest version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-preclear.plg
+Latest version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-preclear-next.plg
 
-Specific version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-preclear.plg
+Specific version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-preclear-next.plg
 
 Enter the release date "YYYY.MM.DD" of the specific version you want to install.  Be sure to keep the "v" before the release date.
