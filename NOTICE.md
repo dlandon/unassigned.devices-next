@@ -1,5 +1,4 @@
-NOTICE
-------
+## NOTICE
 
 This repository contains continued private development of the Unassigned Devices plugin suite, 
 including:
