@@ -36,7 +36,7 @@ Distribution of this software through any operating system marketplace, plugin s
 
 ### 5. Prior GPL Versions
 
-All versions of this software publicly released under the GNU General Public License (GPL) prior to March 6, 2025 remain licensed under the GPL.
+All versions of this software publicly released under the GNU General Public License (GPL) prior to February 17, 2025 remain licensed under the GPL.
 
 This license applies only to versions released after that date and to original work authored by the copyright holder.
 

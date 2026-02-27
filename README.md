@@ -13,7 +13,7 @@ Remote CIFS and NFS mounts depend entirely on network and remote system stabilit
 
 LAN interruptions, DNS delays, VPN changes, router restarts, WAN latency, NAT timeouts, firewall rules, and remote server availability can all affect mount behavior.
 
-Once established, mount behavior is governed primarily by:
+### Once established, mount behavior is governed primarily by:
 
 - **Linux kernel handling**
 - **CIFS/NFS protocol semantics**
