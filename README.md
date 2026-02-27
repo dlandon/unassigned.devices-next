@@ -1,77 +1,77 @@
-# Unassigned Devices - Next
+# Unassigned Devices – Next
+Included Plugins
 
-### Included Plugins
-
-- **Unassigned Devices**  
-- **Unassigned Devices Plus**  
+- **Unassigned Devices**
+- **Unassigned Devices Plus**
 - **Unassigned Devices Preclear**
 
-**Remote CIFS / NFS Mount Expectations**
+This plugin suite provides advanced disk management, remote mount handling, formatting utilities, and preclear capabilities for Unraid systems.
 
-Remote CIFS and NFS mounts are entirely dependent on network reliability.
-Any LAN interruption, DNS delay, VPN blip, router restart, or WAN packet loss can cause mounts to stall or disconnect.
+### Remote CIFS / NFS Mount Behavior
 
-Internet-based mounts are inherently fragile.
-Latency, NAT timeouts, firewall rules, ISP interruptions, and asymmetric routing all affect mount stability.
+Remote CIFS and NFS mounts depend entirely on network and remote system stability.
 
-Once a mount is established, behavior is largely controlled by:
-- Linux kernel
-- CIFS/NFS protocol semantics
-- Mount options (soft/hard, timeouts, retries)
-- Remote server availability
+LAN interruptions, DNS delays, VPN changes, router restarts, WAN latency, NAT timeouts, firewall rules, and remote server availability can all affect mount behavior.
 
-Unassigned Devices can detect, mount, retry, and report remote mounts.
-It cannot prevent disconnects caused by network or remote endpoint failures.
+Once established, mount behavior is governed primarily by:
 
-If a remote share drops offline, the cause is almost always the network or remote system - not the plugin.
+- **Linux kernel handling**
+- **CIFS/NFS protocol semantics**
+- **Mount options (soft/hard, timeouts, retries)**
+- **Remote server responsiveness**
 
-These plugins are **independent alternatives** to the official Unraid plugins and offer enhanced mounting, formatting, and preclear capabilities while maintaining system stability.
+### Unassigned Devices can:
+- **Detect and mount remote shares**
+- **Retry failed connections**
+- **Monitor and report mount status**
 
-This project continues the plugins authored by **dlandon**, with enhancements and bug fixes.
+It cannot prevent disconnects caused by network instability or remote endpoint failures.
 
-Development in this repository begins from the codebase authored by **dlandon** and continues privately as of **March 2025**.
+### About This Project
 
-All development and commits dated **March 2025** and later are licensed under the custom license included in this repository.
+This project continues development of the Unassigned Devices plugin suite originally authored by Dan Landon, with enhancements, stability improvements, and expanded functionality.
 
-For support, discussions, and announcements, please use the **Discussions** tab in this repository.
+Development in this repository reflects ongoing work by the original author.
 
-# Installing Unassigned Devices
+All versions publicly released under the GPL prior to February 17, 2025 remain licensed under the GPL.
+Versions released after that date are governed by the custom license included in this repository.
 
-To install this plugin manually, enter either of the URLs below in the Enter URL field of the Plugins page.  The URL below will either install the latest or a specific version you choose.
+For support, feature requests, and discussions, please use the Discussions tab.
 
-Latest version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-next.plg
+### Installing Unassigned Devices
 
-Specific version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-next.plg
+Enter one of the URLs below in the “Enter URL” field on the Unraid Plugins page.
 
-Enter the release date "YYYY.MM.DD" of the specific version you want to install.  Be sure to keep the "v" before the release date.
+Latest version:
+https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-next.plg
 
-# Installing Unassigned Devices Plus
+Specific version:
+https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-next.plg
 
-To install this plugin manually, enter either of the URLs below in the Enter URL field of the Plugins page.  The URL below will either install the latest or a specific version you choose.
+Replace YYYY.MM.DD with the release date of the version you wish to install.
+Include the leading v in the URL.
 
-Latest version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-plus-next.plg
+### Installing Unassigned Devices Plus
 
-Specific version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-plus-next.plg
+Latest version:
+https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-plus-next.plg
 
-Enter the release date "YYYY.MM.DD" of the specific version you want to install.  Be sure to keep the "v" before the release date.
+Specific version:
+https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-plus-next.plg
 
-# Installing Unassigned Devices Preclear
+### Installing Unassigned Devices Preclear
 
-To install this plugin manually, enter either of the URLs below in the Enter URL field of the Plugins page.  The URL below will either install the latest or a specific version you choose.
+Latest version:
+https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-preclear-next.plg
 
-Latest version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-preclear-next.plg
+Specific version:
+https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-preclear-next.plg
 
-Specific version: https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-preclear-next.plg
+### License Notice
 
-Enter the release date "YYYY.MM.DD" of the specific version you want to install.  Be sure to keep the "v" before the release date.
+This repository is maintained by the original author of the Unassigned Devices plugin suite.
 
-### Notice
+Individual users may install and use this software in accordance with the license terms.
 
-This repository is independently maintained by the original author of the
-Unassigned Devices plugin suite.
-
-Individual Unraid users may install and use this software in accordance with the license terms.
-
-All versions of Unassigned Devices released publicly under the GPL prior to March 2025 remain licensed under the GPL.
-
-Limetech or other third parties may not incorporate this code into Unraid or other products without a separate licensing agreement.
+Versions released prior to February 17, 2025 remain licensed under the GPL.
+Subsequent versions are licensed under the custom license included in this repository.

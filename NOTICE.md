@@ -1,24 +1,17 @@
 ## NOTICE
 
-This repository contains continued private development of the Unassigned Devices plugin suite, 
-including:
+This repository contains ongoing development of the Unassigned Devices plugin suite, including:
 
 - Unassigned Devices  
 - Unassigned Devices Plus  
 - Unassigned Devices Preclear  
 
-The plugins in this suite were authored by dlandon.
+These plugins were originally authored by Dan Landon.
 
-Limetech and the Unraid community maintain forks based on earlier GPL versions of these plugins. 
-Those forks originated from my publicly released GPL code.
+Versions of these plugins publicly released prior to February 17, 2025 were licensed under the GNU General Public License (GPL). Those versions remain licensed under the GPL in accordance with their original terms.
 
-This repository continues directly from the same codebase that I authored. 
-While earlier work was published under the GPL, all development, commits, and changes made 
-after March 2025 in this repository are my own independent work and are not licensed under the GPL.
+All changes, additions, and modifications made on or after February 17, 2025 in this repository are original work authored by Dan Landon and are not licensed under the GPL.
 
-Only the portions of the code that was publicly released prior to March 2025 remain under the GPL.
-All code added, modified, or independently maintained after March 2025 in this repository is
-proprietary and governed solely by the custom license contained in the LICENSE file.
+Only the portions of the software that were publicly released prior to February 17, 2025 remain subject to the GPL. All subsequent development is governed exclusively by the custom license contained in the LICENSE file.
 
-Redistribution, commercial use, or creation of modified or derivative versions of the 
-post-March 2025 work is prohibited without prior written permission from the copyright holder.
+Redistribution, commercial use, or publication of modified or derivative versions of the post-February 17, 2025 work is prohibited without prior written permission from the copyright holder.
