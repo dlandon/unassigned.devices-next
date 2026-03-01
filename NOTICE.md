@@ -1,10 +1,9 @@
 ## NOTICE
 
 This repository contains ongoing development of the Unassigned Devices plugin suite, including:
-
-- Unassigned Devices  
-- Unassigned Devices Plus  
-- Unassigned Devices Preclear  
+- **Unassigned Devices**
+- **Unassigned Devices Plus**
+- **Unassigned Devices Preclear**
 
 These plugins were originally authored by Dan Landon.
 

@@ -37,7 +37,7 @@ Versions released after that date are governed by the custom license included in
 
 For support, feature requests, and discussions, please use the Discussions tab.
 
-### Installing Unassigned Devices
+### Installing Unassigned Devices (Next)
 
 Enter one of the URLs below in the “Enter URL” field on the Unraid Plugins page.
 
@@ -50,7 +50,7 @@ https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/un
 Replace YYYY.MM.DD with the release date of the version you wish to install.
 Include the leading v in the URL.
 
-### Installing Unassigned Devices Plus
+### Installing Unassigned Devices Plus (Next)
 
 Latest version:
 https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-plus-next.plg
@@ -58,7 +58,7 @@ https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassig
 Specific version:
 https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-plus-next.plg
 
-### Installing Unassigned Devices Preclear
+### Installing Unassigned Devices Preclear (Next)
 
 Latest version:
 https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-preclear-next.plg
