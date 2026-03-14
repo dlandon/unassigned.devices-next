@@ -33,7 +33,7 @@ This project continues development of the Unassigned Devices plugin suite origin
 
 Development in this repository reflects ongoing work by the original author.
 
-All versions publicly released under the GPL prior to February 17, 2025 remain licensed under the GPL.
+All versions publicly released under the GPL prior to March 18, 2025 remain licensed under the GPL.
 Versions released after that date are governed by the custom license included in this repository.
 
 For support, feature requests, and discussions, please use the Discussions tab.
