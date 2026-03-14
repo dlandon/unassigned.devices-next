@@ -1,16 +1,14 @@
 ## NOTICE
 
-This repository contains ongoing development of the Unassigned Devices plugin suite, including:
-- **Unassigned Devices**
-- **Unassigned Devices Plus**
-- **Unassigned Devices Preclear**
+Project: Unassigned Devices - Next, Unassigned Devices Plus - Next, and Unassigned Devices Preclear - Next
+Author: Dan Landon
 
-These plugins were originally authored by Dan Landon.
+This repository contains ongoing development of the above software.
 
-Versions of these plugins publicly released prior to February 17, 2025 were licensed under the GNU General Public License (GPL). Those versions remain licensed under the GPL in accordance with their original terms.
+Versions of this software publicly released prior to March 18, 2025 were licensed under the GNU General Public License (GPL). Those historical releases remain licensed under the GPL in accordance with their original terms.
 
-All changes, additions, and modifications made on or after February 17, 2025 in this repository are original work authored by Dan Landon and are not licensed under the GPL.
+Development in this repository continues from the same original codebase. However, all changes, additions, and modifications made on or after March 18, 2025 are original work authored by Dan Landon and are not licensed under the GPL.
 
-Only the portions of the software that were publicly released prior to February 17, 2025 remain subject to the GPL. All subsequent development is governed exclusively by the custom license contained in the LICENSE file.
+Only the portions of the software that were publicly released prior to March 18, 2025 remain subject to the GPL. All subsequent development is governed exclusively by the license contained in the LICENSE.md file.
 
-Redistribution, commercial use, or publication of modified or derivative versions of the post-February 17, 2025 work is prohibited without prior written permission from the copyright holder.
+Redistribution, commercial use, or publication of modified or derivative versions of the post-March 18, 2025 work is prohibited without prior written permission from the copyright holder.
