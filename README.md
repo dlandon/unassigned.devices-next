@@ -1,6 +1,7 @@
-# Unassigned Devices – Next
-Included Plugins
+# Unassigned Devices - Next
+Original author and continued development: Dan Landon
 
+Included Plugins
 - **Unassigned Devices**
 - **Unassigned Devices Plus**
 - **Unassigned Devices Preclear**
@@ -37,40 +38,70 @@ Versions released after that date are governed by the custom license included in
 
 For support, feature requests, and discussions, please use the Discussions tab.
 
-### Installing Unassigned Devices (Next)
+### Installing Unassigned Devices - Next
 
 Enter one of the URLs below in the “Enter URL” field on the Unraid Plugins page.
 
-Latest version:
+### Latest version:
+
+Copy the URL exactly as shown:
 https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-next.plg
 
-Specific version:
+### Specific version:
+
+Copy the URL exactly as shown:
 https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-next.plg
 
-Replace YYYY.MM.DD with the release date of the version you wish to install.
-Include the leading v in the URL.
+Replace YYYY.MM.DD with the release date of the version you wish to install. Include the leading v in the URL.
 
-### Installing Unassigned Devices Plus (Next)
+### Installing Unassigned Devices Plus - Next
 
-Latest version:
+Enter one of the URLs below in the “Enter URL” field on the Unraid Plugins page.
+
+### Latest version:
+
+Copy the URL exactly as shown:
 https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-plus-next.plg
 
-Specific version:
+### Specific version:
+
+Copy the URL exactly as shown:
 https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-plus-next.plg
 
-### Installing Unassigned Devices Preclear (Next)
+Replace YYYY.MM.DD with the release date of the version you wish to install. Include the leading v in the URL.
 
-Latest version:
+### Installing Unassigned Devices Preclear - Next
+
+Enter one of the URLs below in the “Enter URL” field on the Unraid Plugins page.
+
+### Latest version:
+
+Copy the URL exactly as shown:
 https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-preclear-next.plg
 
-Specific version:
+### Specific version:
+
+Copy the URL exactly as shown:
 https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-preclear-next.plg
 
-### License Notice
+Replace YYYY.MM.DD with the release date of the version you wish to install. Include the leading v in the URL.
 
-This repository is maintained by the original author of the Unassigned Devices plugin suite.
+**Note:** The URL must begin with `https://raw.githubusercontent.com/`. GitHub page URLs (`github.com/.../blob/...`) will not install correctly.
 
-Individual users may install and use this software in accordance with the license terms.
+## Distribution
 
-Versions released prior to February 17, 2025 remain licensed under the GPL.
-Subsequent versions are licensed under the custom license included in this repository.
+This repository is the official distribution location for this plugin.
+
+Users should install the plugin directly from the URLs provided in this repository to ensure they receive authentic and up-to-date releases.
+
+Redistribution of this software through third-party repositories, plugin catalogs, mirrors, or repackaged installers is not authorized unless explicitly approved by the author.
+
+## License
+
+This repository is maintained by the original author of the plugin.
+
+Versions of this software publicly released prior to **March 18, 2025** remain licensed under the GNU General Public License (GPL) in accordance with their original terms.
+
+Versions released after that date are governed by the plugin-specific license included in the `LICENSE.md` file in this repository.
+
+Users may install and use this software in accordance with the terms of that license.
