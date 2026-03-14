@@ -37,7 +37,7 @@ For support, feature requests, and discussions, please use the Discussions tab.
 
 ### Installing Unassigned Devices - Next
 
-Enter one of the URLs below in the “Enter URL” field on the Unraid Plugins page.
+Enter one of the URLs below in the **Enter URL** field on the Unraid Plugins page.
 
 ### Latest version:
 
