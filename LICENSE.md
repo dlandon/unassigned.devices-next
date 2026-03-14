@@ -1,4 +1,4 @@
-### Unassigned Devices (Next), Unassigned Devices Plus (Next), and Unassigned Devices Preclear (Next) Personal Use License v1.0
+### Unassigned Devices - Next, Unassigned Devices Plus - Next, and Unassigned Devices Preclear - Next Personal Use License v1.0
 
 Copyright (C) 2016–2026 Dan Landon
 
