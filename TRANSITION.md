@@ -2,4 +2,4 @@ This repository transitioned from GPL licensing to the Unassigned Devices - Next
 
 Historical releases remain GPL.
 
-New development after that date is governed by the LICENSE.md file.
+Next development after that date is governed by the LICENSE.md file.
