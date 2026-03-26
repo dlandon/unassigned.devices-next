@@ -1,0 +1,276 @@
+<?xml version='1.0' standalone='yes'?>
+<!DOCTYPE PLUGIN [
+<!ENTITY name		"unassigned.devices-plus-next">
+<!ENTITY plugin		"unassigned.devices-plus">
+<!ENTITY author		"dlandon">
+<!ENTITY version	"2026.03.27">
+<!ENTITY launch		"Main/UnassignedDevices">
+<!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master;">
+<!ENTITY pluginURL	"&gitURL;/&name;.plg">
+<!ENTITY supportURL	"https://github.com/dlandon/unassigned.devices-next/discussions/">
+<!ENTITY packages	"/boot/config/plugins/&plugin;/packages">
+]>
+
+<PLUGIN name="&plugin;"
+		author="&author;"
+		launch="&launch;"
+		version="&version;"
+		pluginURL="&pluginURL;"
+		support="&supportURL;"
+		icon="unlink"
+		min="6.12.0">
+
+<CHANGES>
+##&name;
+###&version;
+- Notice: Initial release under the new license.
+- Fix: Minimum Unraid version changed to 6.12.
+- Fix: Don't remove parted package since Unraid 7 installs it and uses it.
+- Fix: Replace exfat-utils and fuse-exfat packages with exfatprogs when running Unraid 7.2.0.
+- Fix: Support for exFat disks was added in 7.2.  Adjustments made for 6.12 and 7.0 to support exFat disks.
+</CHANGES>
+
+<!--
+Copyright (C) 2016-2026 Dan Landon
+Licensed under the Unassigned Devices - Next Personal Use License v1.0
+See LICENSE.md for full license terms.
+-->
+
+<!--
+The 'pre-install' script.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+#
+# Unassigned Devices must be installed.
+#
+if [ ! -f /boot/config/plugins/unassigned.devices-next.plg ] || \
+   [ ! -d /usr/local/emhttp/plugins/unassigned.devices ]; then
+	echo ""
+	echo "-----------------------------------------------------------"
+	echo " &name; has not been installed!"
+	echo ""
+	echo " Install the Unassigned Devices - Next plugin first."
+	echo "-----------------------------------------------------------"
+	echo ""
+	exit 1
+fi
+
+#
+# The previous unassigned devices plus plugin cannot be installed.
+#
+if [ -f /boot/config/plugins/&plugin;.plg ] ; then
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has not been installed!"
+echo ""
+echo " The previous Unassigned Devices Plus plugin is installed."
+echo ""
+echo " You must uninstall the Unassigned Devices plugin"
+echo " before installing Unassigned Devices - Next."
+echo ""
+echo "-----------------------------------------------------------"
+echo ""
+exit 1
+fi
+
+#
+# Remove emhttp files so we can re-install.
+#
+rm -rf /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
+</INLINE>
+</FILE>
+
+<!--
+parted-3.6-x86_64-1.txz
+-->
+<FILE Name="&packages;/parted-3.6-x86_64-1.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/parted-3.6-x86_64-1.txz"</URL>
+<MD5>a0d226c87c2bbfda2100030f30bd38ef</MD5>
+</FILE>
+
+<!--
+exfatprogs-1.3.1-x86_64-1.txz
+-->
+<FILE Min="7.2.0" Name="&packages;/exfatprogs-1.3.1-x86_64-1.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/exfatprogs-1.3.1-x86_64-1.txz"</URL>
+<MD5>39a54eb17a85f7e29d1ef6fc264dabfc</MD5>
+</FILE>
+
+<!--
+exfat-utils-1.3.0-x86_64-1_slonly.txz
+-->
+<FILE Max="7.1.99" Name="&packages;/exfat-utils-1.3.0-x86_64-1_slonly.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/exfat-utils-1.3.0-x86_64-1_slonly.txz"</URL>
+<MD5>5f7e017b6a56075b6232483b8028a37c</MD5>
+</FILE>
+
+<!--
+fuse-exfat-1.3.0-x86_64-1_slonly.txz
+-->
+<FILE Max="7.1.99" Name="&packages;/fuse-exfat-1.3.0-x86_64-1_slonly.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/fuse-exfat-1.3.0-x86_64-1_slonly.txz"</URL>
+<MD5>97298a972e2c0ac0ea12256134a2a723</MD5>
+</FILE>
+
+<!--
+hfsprogs-332.25-x86_64-2sl.txz
+-->
+<FILE Name="&packages;/hfsprogs-332.25-x86_64-2sl.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/hfsprogs-332.25-x86_64-2sl.txz"</URL>
+<MD5>9ddd7cb7e0782e9fb7756b1946808228</MD5>
+</FILE>
+
+<!--
+libbsd-0.12.2-x86_64-2cf.txz
+-->
+<FILE Name="&packages;/libbsd-0.12.2-x86_64-2cf.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/libbsd-0.12.2-x86_64-2cf.txz"</URL>
+<MD5>a6d3209851527ba366b0b52ad224ea49</MD5>
+</FILE>
+
+<!--
+libmd-1.1.0-x86_64-1cf.txz
+-->
+<FILE Name="&packages;/libmd-1.1.0-x86_64-1cf.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/libmd-1.1.0-x86_64-1cf.txz"</URL>
+<MD5>fda82ef327f85477de04ee11d386c0d2</MD5>
+</FILE>
+
+<!--
+apfsfuse-v20230312-x86_64-1.txz
+-->
+<FILE Name="&packages;/apfsfuse-v20230312-x86_64-1.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/apfsfuse-v20230312-x86_64-1.txz"</URL>
+<MD5>fe2d9c758cf8d40f54d89b4499aa99f7</MD5>
+</FILE>
+
+<!--
+README.md
+-->
+<FILE Name="/usr/local/emhttp/plugins/&plugin;/README.md">
+<INLINE>
+<![CDATA[
+**Unassigned Devices Plus - Next**
+
+This plugin extends Unassigned Devices support for additional disk formats including HFS+, exFAT, and APFS, and enables destructive mode for advanced disk operations such as formatting and disk preparation.
+
+Originally developed and maintained by Dan Landon.
+
+Project repository, documentation, and license information are available on GitHub.
+]]>
+</INLINE>
+</FILE>
+
+<!--
+The 'post-install' script.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+#
+# Copy Unassigned Devices License
+#
+cp /usr/local/emhttp/plugins/unassigned.devices/LICENSE.md /usr/local/emhttp/plugins/&plugin;/LICENSE.md
+
+#
+# Set up EXFAT utility symlinks for UD
+#
+UD_EXFAT_DIR="/usr/local/sbin/ud-exfat"
+
+#
+# Required EXFAT utilities
+#
+EXFAT_TOOLS=(
+	"mkfs.exfat"
+	"fsck.exfat"
+	"exfatlabel"
+)
+
+#
+# Search paths in preferred order
+#
+SEARCH_PATHS=(
+	"/sbin"
+	"/usr/sbin"
+)
+
+#
+# Create shim directory
+#
+if [ ! -d "${UD_EXFAT_DIR}" ]; then
+	mkdir -p "${UD_EXFAT_DIR}"
+fi
+
+#
+# Resolve and link tools
+#
+for tool in "${EXFAT_TOOLS[@]}"; do
+	found=""
+
+	for path in "${SEARCH_PATHS[@]}"; do
+		if [ -x "${path}/${tool}" ]; then
+			found="${path}/${tool}"
+			break
+		fi
+	done
+
+	#
+	# Tool not found
+	#
+	if [ -z "${found}" ]; then
+		break
+	fi
+
+	#
+	# Create or update symlink
+	#
+	ln -sf "${found}" "${UD_EXFAT_DIR}/${tool}"
+done
+
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has been installed."
+echo " Copyright 2019-2026, &author;"
+echo " Version: &version;"
+echo "-----------------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+<!--
+The 'remove' script.
+-->
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+echo "Removing packages..."
+
+#
+# Remove all installed packages.
+#
+removepkg hfsprogs-332.25-x86_64-2sl >/dev/null
+removepkg exfat-utils-1.3.0-x86_64-1_slonly >/dev/null
+removepkg fuse-exfat-1.3.0-x86_64-1_slonly.txz >/dev/null
+removepkg libbsd-0.12.2-x86_64-2cf.txz >/dev/null
+removepkg libmd-1.1.0-x86_64-1cf.txz >/dev/null
+removepkg apfsfuse-v20230312-x86_64-1.txz >/dev/null
+
+#
+# Remove possible leftovers
+#
+rm -rf /usr/local/emhttp/plugins/&plugin;
+
+#
+# Remove plugin related directories
+#
+rm -rf	/usr/local/sbin/ud-exfat/
+
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has been uninstalled."
+echo "-----------------------------------------------------------"
+echo ""
+
+</INLINE>
+</FILE>
+
+</PLUGIN>

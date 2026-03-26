@@ -1,0 +1,560 @@
+<?xml version='1.0' standalone='yes'?>
+<!DOCTYPE PLUGIN [
+<!ENTITY name		"unassigned.devices-next">
+<!ENTITY plugin		"unassigned.devices">
+<!ENTITY author		"dlandon">
+<!ENTITY version	"2026.03.27">
+<!ENTITY launch		"Main/UnassignedDevices">
+<!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
+<!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
+<!ENTITY pluginURL	"&gitURL;/&name;.plg">
+<!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
+<!ENTITY MD5		"ef6e2113cc62bd30152061fefd5b6114">
+]>
+
+<PLUGIN name="&plugin;"
+		author="&author;"
+		launch="&launch;"
+		version="&version;"
+		pluginURL="&pluginURL;"
+		support="&supportURL;"
+		icon="unlink"
+		min="6.12.0">
+
+<CHANGES>
+##&name;
+###&version;
+- Notice: Initial release under the new license.
+- Notice: Minimum Unraid version changed to 6.12.  There have been too many UI changes to maintain backwards compatibility beyond 6.12.
+- Fix: Users array not defined on boot up causing SMB users to be removed from the UD configuration.
+- Fix: Additional fixes for adjusting SMB and NFS config file parameters that cause incorrect configuration settings.
+- Fix: Prevent a disk scrub from causing an error when a scrub is already running.
+- Fix: Hang when shutting down and a btrfs scrub is running on a disk.
+- Fix: Switch (checkboxes) tooltips not showing on UI page and other tooltip fixes.
+- Fix: Only enable 'Format' button if destructive mode is enabled.
+- Fix: Duplicate entries in the 'device_hosts' file used to re-attach disk devices causing re-attach errors.
+- Fix: Several UI page adjustments.
+- Fix: Reorganize some Java Script code.
+- Fix: Adjust SweetAlert2 dialogs for black, gray, and azure color themes.
+- Fix: UI issues in NFS settings.
+- Fix: Time Machine settings in UD SMB Settings.
+- Fix: Rework NFS and SMB settings pages to be more intuitive.
+- Fix: Rework 'Device Settings' page to be more intuitive.
+- Fix: Some help settings were not showing properly in 'Device Settings'.
+- Fix: Style sheet changes for Unraid 7.2.  Default field widths in some cases were too long running text off the page.
+- Fix: Style sheet changes for responsive design implementation in Unraid 7.0.
+- Fix: Style sheet changes to space titles and tables to remove excess white space for Unraid 7.2.
+- Fix: Support for exFat disks in Unraid 6.12 and later.  Beginning with Unraid 7.2, exFat support is included in Unraid core.
+- Fix: Command times debug not working.
+- Fix: Command debug setting not working.
+- Fix: Command debug setting improvements to cut down on excessive log entries when debugging.
+- Fix: Only execute lsblk when necessary to get the physical disk size and stop constant polling.
+- Fix: Only execute lsblk when necessary to get a partition file system type and stop constant polling.
+- Fix: Clean up cifs mount parameters for compatibility and to prevent mount errors from incorrect mount options.
+- Fix: 'Specify SMB Version when Mounting Remote Shares?' not working correctly.
+- Fix: Three second page refresh timer not working properly hammering the UD page with constant refreshes.  This may be the reason for some UI lockups and slow response.
+- Fix: Rework remote server test help.
+- Fix: Refactor checks for device and preclear scripts running to be faster, more efficient and robust.
+- Fix: Unraid hangs in certain circumstances of NFS shares going offline requiring a hard reset.
+- Fix: Adjustments to NFS remote shares to handle the exclusive share path changes in Unraid 7.2.  The remote mount will show as invalid if the share changes from exclusive to non-exclusive or vice versa.  Mounting an exclusive share at '/mnt/user/{share}' in Unraid 7.2 will fail.
+- Fix: Btrfs pool anchor device not detected correctly.
+- Fix: Abort script to be sure child processes are terminated.
+- Fix: The 'crypto.randomUUID() is not a function' error in older browsers.
+- Fix: A malfunctioning disk device that does not show a serial number is now ignored.  The udev status works with the serial number as the index to the udev array kept in the tmpfs.  UD has to have a serial number to identify the disk and can't work with a disk without it.
+- Fix: Page blink when Device Settings page loads.  Most noticeable when using a theme other than white.
+- Fix: Refactor file locks code to be faster and more robust.
+- Fix: Change glob() to scandir() for better performance in mount status file handling.
+- Fix: Php errors from get_udev_info() returning an empty array for disk and partition when a disk is hot plugged.
+- Fix: Php errors and warnings when hot plugging a disk with no partitions.
+- Fix: Refactor zfs_pool_name() function to cut down on unnecessary work.
+- Fix: Mounting a ZFS disk sometimes fails with pool not found.
+- Fix: Change individual file-based device state (Mounting, Unmounting, Formatting, etc) to a single json device state file.
+- Fix: Refactor atomic file writes.
+- Fix: Improvements in getting total, used, and free space on devices and remote mounts.
+- Fix: Refactor safe_name() function to be more generic and handle multi byte Chinese characters properly.
+- Fix: Rework the mounting status and mount/unmount check of mounted and unmounted status.
+- Fix: Format all disks as gpt to be compatible with Unraid.
+- Fix: Remove NFS and SMB shares before unmounting devices, not after.
+- Fix: Move encrypted disk icon to the 'FS' marker to match Unraid UI.
+- Fix: Compress option not working on btrfs and zfs disks in all cases.
+- Fix: Use the correct LAN address for the local server when searching for servers while using a proxy, VPN, or Tailscale.
+- Fix: Root Share is mounted read only. Writing, creating, and moving files in a Root Share is risky.
+- Fix: When Samba mounts are disabled by the 'Disable Mount Button' to show the 'ban' indicator.
+- Fix: Encrypted SMB remote mounts only work on V3.X.  Display log message indicating that encryption did not work on the mount.
+- Fix: Wrong ports being tested in Remote Server test for NFS.
+- Rem: Unneeded docker style sheet reference that has been removed.
+- Rem: 'Clear' button on Remote Server test.  It is redundant since the 'Reset' button does the same thing.
+- Rem: 'Clear' button on Device Settings script settings.  It is redundant since the 'Reset' button does the same thing.
+- Rem: Remove unnecessary tooltips.
+- Rem: Don't format ZFS disks in legacy mode.  Disks are now formatted with latest ZFS version.
+- Add: Only refresh UI Page when there are changes to display.
+- Add: Show all options in Device Settings for disks and remote shares, and disable any that don't apply to that mount type.
+- Add: Remove 'vfs_objects' from smb-extra.conf and add a comment.  This is not the place to do that and it messes with UD, Recycle Bin, and Unraid MacOS setting.
+- Add: Setting to select encrypted disks as luks1 and or luks2.  Luks2 more features but has the potential to use excessive memory.  The default is luks2.
+- Add: The ability to format ext4 and ntfs disks compatible with Unraid array.
+- Add: Ability to mount IPv6 remote SMB shares by specifying an IPv6 address.
+- Add: Add settings in 'Device Settings' for the UID and GID of a CIFS mount.
+- Add: Option on CIFS mounts to adjust the mount 'cache' parameter to better support backups on a remote mount.
+- Add: Style sheet changes to adjust the 'Device Settings' multiline tooltip to better conform to the Unraid style.
+- Add: Numeric inputs limited to numbers and min and max values added.
+- Add: Fixed intermittent visibility of Unraid server in Windows Network by ensuring WSD (Web Services Discovery) rebind occurs after Samba config reload.
+- Add: NFS shares cannot be re-shared as NFS.  There is no reason to mount a NFS remote share and then re-share it NFS on the same LAN.
+- Add: File lock whenever changing NFS /etc/exports share file.
+- Add: Add back the UD disk preclear status.  The problems with the refresh of the preclear status have been fixed.
+- Add: Trap code to default device script to gracefully catch script termination or abort.
+- Add: Be sure that the partition is reloaded after a format so the partition is recognized and the disk can be mounted.  This occurs mostly on nvme disks.
+- Add: Events to the udev rules so hotplug events are recognized for nvme devices properly.
+- Add: Scroll device log to the bottom to show latest entries.
+- Add: Preclear styles so the start preclear dialog fields are lined up properly.
+- Add: Error handling to configuration file writes to flash device.
+- Add: Don't refresh the UD page if it is not the selected tab.
+- Add: Check XFS disks when mounted for V5 and log a warning if not.
+- Add: Cache status files and check for a change before writing files to minimize file reads and writes.
+- Add: Add 'zfs set atime=off' before mounting a zfs disk.
+- Add: Add mount compression option to encrypted btrfs and zfs disks.
+- Add: Troubleshooting tab in UD Settings to help troubleshoot issues and create diagnostics for support.
+- Add: Do not add or mount a Root Share if Disk or Exclusive shares are enabled. The Root Share is for browsing and viewing all shares in one place, and not for managing files in the shares.  Disk and Exclusive shares do not work properly in a Root Share.
+- Add: Set 'acltype=posixacl' and 'xattr=sa' when formatting a ZFS disk. 
+- Add: Configuration option to mount remote shares with SMB V1.0 as a last resort.
+- Add: Add descriptive log messages about SMB remote share mount issues.
+- Add: Restart file activity when a UD disk is mounted and unmounted.
+- Add: Remote Share test to Troubleshooting to do a share performance test.
+</CHANGES>
+
+<!--
+Copyright (C) 2016-2026 Dan Landon
+Licensed under the Unassigned Devices - Next Personal Use License v1.0
+See LICENSE.md for full license terms.
+-->
+
+<!--
+Get the plugin bundle.
+-->
+<FILE Name="/boot/config/plugins/&plugin;/&name;-&version;.tgz">
+<URL>"&tgzURL;/&name;-&version;.tgz"</URL>
+<MD5>&MD5;</MD5>
+</FILE>
+
+<!--
+The 'pre-install' script.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+#
+# The previous unassigned devices plugin cannot be installed.
+#
+if [ -f /var/log/plugins/&plugin;.plg ] ; then
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has not been installed!"
+echo ""
+echo " The previous Unassigned Devices plugin is installed."
+echo ""
+echo " You must uninstall the Unassigned Devices plugin"
+echo " before installing Unassigned Devices - Next."
+echo ""
+echo "-----------------------------------------------------------"
+echo ""
+exit 1
+fi
+
+#
+# Remove emhttp files so we can re-install.
+#
+rm -rf /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
+
+#
+# Remove old 'bundle' files.
+#
+rm -f $(ls /boot/config/plugins/&plugin;/*.tgz 2>/dev/null | grep -v '&version;')
+
+#
+# Remove old add-smb file
+#
+rm -f /tmp/&plugin;/add-smb
+</INLINE>
+</FILE>
+
+<FILE Name="/boot/config/plugins/&plugin;/&plugin;.cfg">
+<INLINE>
+<![CDATA[
+common_cmd=""
+destructive_mode=""
+luks_volume=""
+automount_usb=""
+NFS_Export=""
+NFS_Security=""
+NFS_Version=0
+nfs_rule=""
+SMB_Sharing=""
+SMB_Version=""
+SMB1_Fallback=""
+discard=""
+force_user=""
+symlinks=""
+case_names=""
+debug_level=0
+zvols=""
+remote_share_wait=""
+time_machine=""
+time_mach_vol_size=""
+]]>
+</INLINE>
+</FILE>
+
+<FILE Name="/boot/config/plugins/&plugin;/samba_mount.cfg">
+<INLINE>
+<![CDATA[
+]]>
+</INLINE>
+</FILE>
+
+<FILE Name="/boot/config/plugins/&plugin;/iso_mount.cfg">
+<INLINE>
+<![CDATA[
+]]>
+</INLINE>
+</FILE>
+
+<!--
+Add smb parameters for UD.
+-->
+<FILE Name="/tmp/&plugin;/add-smb" Mode="0770">
+<INLINE>
+<![CDATA[
+#!/bin/bash
+#
+# Remove the unused legacy smb-extra.conf entries
+#
+if [ -f /boot/config/smb-extra.conf ] ; then
+	if [[ `/usr/bin/grep '#unassigned_devices' /boot/config/smb-extra.conf 2> /dev/null` != "" ]]; then
+		/usr/bin/sed '/#unassigned_devices_start/,/#unassigned_devices_end/d' /boot/config/smb-extra.conf > /tmp/smb.tmp
+		mv /tmp/smb.tmp /boot/config/smb-extra.conf
+	fi
+
+	#
+	# Remove vfs_objects from smb-extra.conf because it messes up a lot of stuff
+	#
+	sed -i 's/^[[:space:]]*vfs objects.*/#DO NOT ADD vfs objects HERE - IT BREAKS UD, RECYCLE BIN, AND MACOS SETTING/' /boot/config/smb-extra.conf
+fi
+
+#
+# Add entry to /etc/samba/smb.conf
+#
+if [[ `grep '# hook for unassigned devices shares' /etc/samba/smb.conf` = "" ]]; then
+	sed -i "/# auto-configured shares/i \[global]\n	# hook for unassigned devices shares\n	include = /etc/samba/smb-unassigned.conf\n" /etc/samba/smb.conf
+fi
+
+if [ -e /tmp/unassigned.devices/smb-settings.conf ]; then
+	#
+	# Move the previous smb-settings.conf file
+	#
+	mv /tmp/unassigned.devices/smb-settings.conf /etc/samba/smb-unassigned.conf
+fi
+
+#
+# Reload samba
+#
+/usr/bin/smbcontrol all reload-config 2>&1
+sleep 1
+
+#
+# Start wsdd2 using Unraid's system script for compatibility
+#
+if ! /usr/bin/pgrep -x wsdd2 >/dev/null 2>&1; then
+	/etc/rc.d/rc.wsdd2 start >/dev/null 2>&1
+fi
+]]>
+</INLINE>
+</FILE>
+
+<!--
+The 'post-install' script.
+-->
+<FILE Run="/bin/bash">
+<INLINE>
+#
+# Create logs, config, and device scripts directory.
+#
+mkdir -p /tmp/&plugin;/logs /tmp/&plugin;/config /tmp/&plugin;/scripts
+
+#
+# Create smb-unassigned.conf if it does not exist
+#
+touch /etc/samba/smb-unassigned.conf
+
+#
+# Create plugin directory
+#
+mkdir -p /boot/config/plugins/&plugin;
+
+#
+# Install the 'bundle'.
+#
+tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/plugins 2>/dev/null
+
+#
+# Move the rules file
+#
+mv /usr/local/emhttp/plugins/&plugin;/99_persistent_unassigned.rules /etc/udev/rules.d/
+chmod 644 -R /etc/udev/rules.d/99_persistent_unassigned.rules 2>/dev/null
+
+#
+# Create a symlink to rm.
+#
+ln -sf /bin/rm /usr/local/emhttp/plugins/&plugin;/scripts/
+
+#
+# Fix permissions of executable files
+#
+chmod +x /usr/local/emhttp/plugins/&plugin;/scripts/* /usr/local/emhttp/plugins/&plugin;/event/*
+
+#
+# Create a symlink to unassigned devices scripts.
+#
+ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/rc.unassigned /usr/local/sbin
+ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/mkmbr.sh /usr/local/sbin
+ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/ud_diagnostics /usr/local/sbin
+
+#
+# Create state folder and mount points
+#
+mkdir -p /mnt/disks/ /mnt/remotes/ /mnt/addons/ /mnt/rootshare/ /var/state/&plugin;/
+
+#
+# Create a tmpfs mountpoint at /mnt/disks
+# to make sure that writting to an unmounted device doesn't fill all rootfs
+# ps: tmpfs mountpoint will only be created if no disks are mounted yet
+#
+mounted_disks="n"
+if ! mountpoint -q /mnt/disks 2>/dev/null; then
+  for dir in /mnt/disks/*; do 
+    if mountpoint -q "$dir" 2>/dev/null; then 
+      mounted_disks="y" 
+    fi
+  done
+  if [ $mounted_disks == "n" ]; then
+    mount -t tmpfs -o size=1M tmpfs /mnt/disks
+  else
+    touch /var/state/&plugin;/reboot_required
+  fi
+fi
+chown nobody:users /mnt/disks
+
+#
+# Create a tmpfs mountpoint at /mnt/remotes
+# to make sure that a CIFS connection dropout doesn't fill all rootfs
+# ps: tmpfs mountpoint will only be created if no remote mounts are mounted yet
+#
+mounted_remotes="n"
+if ! mountpoint -q /mnt/remotes 2>/dev/null; then
+  for dir in /mnt/remotes/*; do 
+    if mountpoint -q "$dir" 2>/dev/null; then 
+      mounted_remotes="y" 
+    fi
+  done
+  if [ $mounted_remotes == "n" ]; then
+    mount -t tmpfs -o size=1M tmpfs /mnt/remotes
+  else
+    touch /var/state/&plugin;/reboot_required
+  fi
+fi
+chown nobody:users /mnt/remotes
+
+#
+# Create a tmpfs mountpoint at /mnt/addons
+# to make sure that writting to an unmounted device doesn't fill all rootfs
+# ps: tmpfs mountpoint will only be created if no addons are mounted yet
+#
+mounted_addons="n"
+if ! mountpoint -q /mnt/addons 2>/dev/null; then
+  for dir in /mnt/addons/*; do 
+    if mountpoint -q "$dir" 2>/dev/null; then 
+      mounted_addons="y" 
+    fi
+  done
+  if [ $mounted_addons == "n" ]; then
+    mount -t tmpfs -o size=1M tmpfs /mnt/addons
+  else
+    touch /var/state/&plugin;/reboot_required
+  fi
+fi
+chown nobody:users /mnt/addons
+
+#
+# Create a tmpfs mountpoint at /mnt/rootshare
+# to make sure that a CIFS connection dropout doesn't fill all rootfs
+# ps: tmpfs mountpoint will only be created if no rootshare mounts are mounted yet
+#
+mounted_rootshare="n"
+if ! mountpoint -q /mnt/rootshare 2>/dev/null; then
+  for dir in /mnt/rootshare/*; do 
+    if mountpoint -q "$dir" 2>/dev/null; then 
+      mounted_rootshare="y" 
+    fi
+  done
+  if [ $mounted_rootshare == "n" ]; then
+    mount -t tmpfs -o size=1M tmpfs /mnt/rootshare
+  else
+    touch /var/state/&plugin;/reboot_required
+  fi
+fi
+chown nobody:users /mnt/rootshare
+
+#
+# Add unassigned_devices to smb.conf.
+#
+at -f "/tmp/&plugin;/add-smb" "now" 2>/dev/null
+
+#
+# Copy config files to the tmp file system to be sure we have current settings.
+#
+/usr/bin/cp /boot/config/plugins/&plugin;/*.cfg /tmp/&plugin;/config/ 2>/dev/null
+
+#
+# Apply settings to update share settings and copy configuration files to tmp file system.
+#
+/usr/local/emhttp/plugins/&plugin;/scripts/rc.settings apply 2>/dev/null
+
+#
+# Rename original Dynamix page
+#
+if [[ -e /usr/local/emhttp/plugins/dynamix/OpenDevices.page ]]; then
+  mv -f /usr/local/emhttp/plugins/dynamix/OpenDevices.page /usr/local/emhttp/plugins/dynamix/OpenDevices.page-
+fi
+
+#
+# Clean out old plugin packages
+#
+find /boot/config/plugins/&plugin; -type f -iname "&name;*.txz" ! -iname "*&version;*" -delete
+find /boot/config/plugins/&plugin; -type f -iname "&name;*.md5" ! -iname "*&version;*" -delete
+
+#
+# reload udev rules
+#
+udevadm control --reload-rules
+
+#
+# Load the ntfs3 module if it is available
+#
+modprobe ntfs3 2>/dev/null
+
+#
+# Update the file 'update.php' if version is 6.11, or 6.12 so device script 'Apply' changes will work.
+# Get the Unraid version
+#
+unraid_version=$(cat /etc/unraid-version)
+
+#
+# Extract the first 4 characters of the version
+# Read the Unraid version from the file
+#
+source '/etc/unraid-version'
+first_four_chars=${version:0:4}
+
+#
+# These are some temporary patches to overcome several issues
+#
+# Update the update.php file so device settings will save the script correctly
+# Check if the first 4 characters are 6.11 or 6.12
+#
+if [[ $first_four_chars == "6.11" || $first_four_chars == "6.12" ]]; then
+	cp /usr/local/emhttp/plugins/&plugin;/include/update.php /usr/local/emhttp/update.php
+else
+	rm /usr/local/emhttp/plugins/&plugin;/include/update.php
+fi
+
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has been installed."
+echo " Copyright 2016-2026, &author;"
+echo " Version: &version;"
+echo ""
+echo " Note:"
+echo " Install the Unassigned Devices Plus - Next plugin to extend"
+echo " Unassigned Devices support for additional disk formats including"
+echo " HFS+, exFAT, and APFS, and enable destructive mode for advanced"
+echo " disk operations such as formatting and disk preparation."
+echo ""
+echo " Support for formatting disks is included in Unraid 7.2 and"
+echo " later."
+if [ -f /var/state/&plugin;/reboot_required ]; then
+  echo ""
+  echo " PLEASE REBOOT YOUR SERVER "
+  echo ""
+fi
+echo "-----------------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+<!--
+The 'remove' script.
+-->
+<FILE Run="/bin/bash" Method="remove">
+<INLINE>
+#
+# umount disks and smb mounts
+#
+/usr/local/emhttp/plugins/&plugin;/scripts/rc.unassigned umount all 2>/dev/null
+
+if mountpoint -q "/mnt/disks"; then
+  umount "/mnt/disks"
+fi
+rmdir /mnt/disks 2>/dev/null
+
+if mountpoint -q "/mnt/remotes"; then
+  umount "/mnt/remotes"
+fi
+rmdir /mnt/remotes 2>/dev/null
+
+if mountpoint -q "/mnt/addons"; then
+  umount "/mnt/addons"
+fi
+rmdir /mnt/addons 2>/dev/null
+
+if mountpoint -q "/mnt/rootshare"; then
+  umount "/mnt/rootshare"
+fi
+rmdir /mnt/rootshare 2>/dev/null
+
+rm -f /tmp/plugins/&plugin;.plg \
+      /usr/local/sbin/rc.unassigned \
+	  /usr/local/sbin/mkmbr.sh \
+      /etc/udev/rules.d/99_persistent_unassigned.rules
+
+#
+# Reload udev rules
+#
+udevadm control --reload-rules
+
+#
+# Restore original Dynamix page
+#
+mv -f /usr/local/emhttp/plugins/dynamix/OpenDevices.page- /usr/local/emhttp/plugins/dynamix/OpenDevices.page
+
+#
+# Remove all plugin files from emhttp.
+#
+rm -rf /usr/local/emhttp/plugins/&plugin; 2>/dev/null
+
+#
+# Remove plugin related directories
+#
+rm -rf	/var/state/&plugin;/ \
+		/tmp/&plugin;/
+
+#
+# Remove the unassigned devices 'bundle' so it will be downloaded if re-installed.
+#
+rm -rf /boot/config/plugins/&plugin;/&name;-&version;.tgz
+
+echo ""
+echo "-----------------------------------------------------------"
+echo " &name; has been uninstalled."
+echo "-----------------------------------------------------------"
+echo ""
+</INLINE>
+</FILE>
+
+</PLUGIN>
