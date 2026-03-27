@@ -70,12 +70,12 @@ Enter one of the URLs below in the **Enter URL** field on the Unraid Plugins pag
 ### Latest version:
 
 Copy the URL exactly as shown:
-https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices-preclear-next.plg
+https://raw.githubusercontent.com/dlandon/unassigned.devices-next/master/unassigned.devices.preclear-next.plg
 
 ### Specific version:
 
 Copy the URL exactly as shown:
-https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices-preclear-next.plg
+https://raw.githubusercontent.com/dlandon/unassigned.devices-next/vYYYY.MM.DD/unassigned.devices.preclear-next.plg
 
 Replace YYYY.MM.DD with the release date of the version you wish to install. Include the leading v in the URL.
 
