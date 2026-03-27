@@ -5,7 +5,7 @@
 <!ENTITY author		"dlandon">
 <!ENTITY version	"2026.03.27">
 <!ENTITY launch		"Main/UnassignedDevices">
-<!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master;">
+<!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/unassigned.devices-next/discussions/">
 <!ENTITY packages	"/boot/config/plugins/&plugin;/packages">
