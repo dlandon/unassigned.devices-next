@@ -6,6 +6,32 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 
 ## Unassigned Devices - Next
 
+## 2026.04.06
+
+### Major Improvements
+- Improved overall reliability and stability of script execution, device monitoring, and runtime behavior  
+- Enhanced locking mechanisms to prevent concurrency issues and potential deadlocks  
+- Optimized page refresh behavior to reduce unnecessary activity and improve responsiveness  
+
+### Remote Share Improvements
+- Improved handling and reliability of remote share script execution  
+
+### Filesystem and Device Enhancements
+- Resolved issues with device statistics collection that could lead to stalled updates  
+- Improved coordination of background processes to ensure proper execution order  
+
+### User Interface Improvements
+- Improved page refresh timing for better responsiveness and reduced system load  
+- Prevented unnecessary device polling when the UI is not active  
+
+### Diagnostics and Troubleshooting
+- Improved error handling through proper return code propagation in command execution  
+- Added safeguards such as timeouts to prevent indefinite hangs during background operations  
+
+### Notes
+- Improved compatibility with newer Unraid versions, including 7.3  
+- Detailed technical changes are documented in the GitHub release notes
+
 ## 2026.03.27
 
 Initial release of the **Next** series maintained by the original author.

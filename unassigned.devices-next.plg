@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.03.27">
+<!ENTITY version	"2026.04.06">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"ef6e2113cc62bd30152061fefd5b6114">
+<!ENTITY MD5		"ce5db437b4855df6e095d6614253ebe3">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,16 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Convert UD scripts to Linux format (LF line terminations) before running UD scripts.
+- Fix: Don't run the common script in the background so it will finish before the UD script is executed.
+- Fix: Remote Shares script handling.
+- Fix: Return codes not being returned properly by timed_exec() function causing various failures.  Shows up on Unraid 7.3.
+- Fix: Getting UD devices stats would sometimes get into a deadlock and not update any longer.
+- Fix: Adjust UD page refresh page timing to reduce unnecessary page refreshes and to be more responsive.
+- Add: Don't poll UD devices if the page is not active.
+- Add: More robust file locking to prevent concurrent running of UD stats script and add a timeout to prevent indefinite hang.
+
+###2026.03.27
 - Notice: Initial release under the new license.
 - Notice: Minimum Unraid version changed to 6.12.  There have been too many UI changes to maintain backwards compatibility beyond 6.12.
 - Fix: Users array not defined on boot up causing SMB users to be removed from the UD configuration.
