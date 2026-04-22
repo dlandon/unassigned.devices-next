@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.04.06">
+<!ENTITY version	"2026.04.22">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"ce5db437b4855df6e095d6614253ebe3">
+<!ENTITY MD5		"7782ecc05eff6c4b17e2a8554e42e430">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,14 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: A User Script running on a UD device is not detected uniquely and any User Script running shows running on a UD device with a User Script selected.
+- Fix: Aborting a running script on a UD device does not terminate the User Script properly.
+- Fix: Encrypted NTFS disk not using the NTFS3 driver when selected in Device Settings.
+- Fix: Refactor abort of UD and User Scripts for robustness and code maintainability.
+- Fix: Refactor script running check for robustness and code maintainability.
+- Fix: Use BTRFS 'file system usage' for BTRFS stats instead of 'df'.
+
+###2026.04.06
 - Fix: Convert UD scripts to Linux format (LF line terminations) before running UD scripts.
 - Fix: Don't run the common script in the background so it will finish before the UD script is executed.
 - Fix: Remote Shares script handling.

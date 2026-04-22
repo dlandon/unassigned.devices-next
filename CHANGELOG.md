@@ -6,6 +6,14 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 
 ## Unassigned Devices - Next
 
+## 2026.04.22
+
+### Stability and Reliability Improvements
+
+- Improved script detection and termination for more accurate tracking and cleanup on UD devices.
+- Fixed NTFS3 driver usage for encrypted NTFS disks and improved BTRFS usage reporting.
+- Internal refactoring enhances reliability, reduces edge-case issues, and improves maintainability.
+
 ## 2026.04.06
 
 ### Major Improvements
