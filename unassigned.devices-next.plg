@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.04.22">
+<!ENTITY version	"2026.05.10">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"7782ecc05eff6c4b17e2a8554e42e430">
+<!ENTITY MD5		"eb93ca5884482cc0468b532df7c2b974">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Php errors from htmlspecialchars() on main page.
+
+###2026.04.22
 - Fix: A User Script running on a UD device is not detected uniquely and any User Script running shows running on a UD device with a User Script selected.
 - Fix: Aborting a running script on a UD device does not terminate the User Script properly.
 - Fix: Encrypted NTFS disk not using the NTFS3 driver when selected in Device Settings.
