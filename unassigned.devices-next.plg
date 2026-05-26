@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.05.10">
+<!ENTITY version	"2026.05.26">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"eb93ca5884482cc0468b532df7c2b974">
+<!ENTITY MD5		"110a7ad647006d73de44b7cc77250bbd">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,14 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Extend vfat sync timeout to 180 seconds when unmounting the device and not shutting down the server.
+- Fix: Use the built in call to open and close encrypted disk devices.  In some cases it was not being used.
+- Fix: Encrypted disks failed to open when checking the file system on an encrypted disk.
+- Fix: Could not enable the ntfs3 driver on a zvol formatted as ntfs.
+- Fix: Help rewrite to update the for current operation.
+- Add: Verify ZFS pool name is not a reserved ZFS name when formatting and mounting a zfs disk.
+
+###2026.05.10
 - Fix: Php errors from htmlspecialchars() on main page.
 
 ###2026.04.22
@@ -462,6 +470,7 @@ modprobe ntfs3 2>/dev/null
 
 #
 # Update the file 'update.php' if version is 6.11, or 6.12 so device script 'Apply' changes will work.
+#
 # Get the Unraid version
 #
 unraid_version=$(cat /etc/unraid-version)
@@ -562,7 +571,7 @@ rm -rf /usr/local/emhttp/plugins/&plugin; 2>/dev/null
 #
 # Remove plugin related directories
 #
-rm -rf	/var/state/&plugin;/ \
+rm -rf /var/state/&plugin;/ \
 		/tmp/&plugin;/
 
 #

@@ -6,6 +6,24 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 
 ## Unassigned Devices - Next
 
+## 2026.05.26
+
+### Improvements
+- Updated encrypted disk handling to consistently use the built-in open and close operations
+- Improved ZFS validation when formatting and mounting ZFS disks
+- Updated help text and operation guidance for current functionality
+
+### Fixes
+- Extended VFAT sync timeout to improve reliability when unmounting devices outside of server shutdown
+- Fixed encrypted disks failing to open during file system checks
+- Fixed ntfs3 driver enablement on NTFS-formatted zvol devices
+- Added validation to prevent use of reserved ZFS pool names
+
+## 2026.05.10
+
+### Fixes
+- Fixed PHP warnings related to `htmlspecialchars()` on the main page
+
 ## 2026.04.22
 
 ### Stability and Reliability Improvements
