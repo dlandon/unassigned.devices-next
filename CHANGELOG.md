@@ -6,6 +6,45 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 
 ## Unassigned Devices - Next
 
+## 2026.06.19
+
+### Reliability & Stability
+
+- Improved overall mount, unmount, and device management reliability through significant internal refactoring.
+- Added additional safeguards to prevent devices from entering invalid or improperly unmounted states.
+- Improved shutdown handling to ensure devices and remote shares are cleanly unmounted and to reduce the chance of shutdown delays or hangs.
+- Enhanced file locking and state management for more reliable configuration and status updates.
+
+### Device Management
+
+- Fixed several issues involving device removal, historical device handling, disk renaming, UUID changes, and mount point management.
+- Added validation to ensure mount points are safe before mounting devices, helping prevent accidental data writes to incorrect locations.
+- Improved handling of hotplug, formatting, and device-clearing events to keep device information synchronized and up to date.
+- Fixed a long-standing issue where newly formatted NVMe partitions were not immediately recognized.
+
+### Scripts & Automation
+
+- Reworked device script execution, monitoring, logging, and abort handling for improved reliability.
+- Added verification that scripts properly stop when aborted by the user or during system shutdown.
+- Removed the legacy background script execution setting and simplified script behavior.
+- Improved script logging and cleanup throughout the user interface.
+
+### Performance & Responsiveness
+
+- Improved UI refresh timing and responsiveness.
+- Optimized hotplug processing by moving device assignment updates to background operations when appropriate.
+- Reduced shutdown time by processing disk and remote share unmount operations in parallel.
+
+### User Experience
+
+- Improved warnings and messaging for device removal operations.
+- Added additional logging and status reporting to help identify mount, unmount, and device-management issues.
+- Cleaned up several dialogs and configuration workflows for a more consistent experience.
+
+### Notes
+
+- User Script abort operations involving rsync are limited by the way rsync spawns child processes. A pull request has been submitted to User Scripts to improve handling of these scenarios.
+
 ## 2026.05.26
 
 ### Improvements

@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.05.26">
+<!ENTITY version	"2026.06.19">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"110a7ad647006d73de44b7cc77250bbd">
+<!ENTITY MD5		"51f0ee8cc2dc5d80b978da67c241c1c6">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,11 +24,36 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Removing a remote share did not remove the device script.
+- Fix: Refactor device removal and add warning message to removal dialog that the device script files will be deleted.
+- Fix: Issues with changing disk name on a Historical Device.
+- Fix: Improve timing in the UI page refresh code for better responsiveness and faster updates.
+- Fix: User scripts not getting aborted correctly.  Rsync spawned tasks not getting aborted.
+- Fix: Refactor change mountpoints and change UUID for code consistency and fix a few bugs.
+- Fix: Some cleanup of the script and file check dialogs.
+- Fix: Script logging download zip file name is now the script file name and the date only.
+- Fix: Lots of work on the rc.unassigned script to reorganize the mount and unmount calls, fix some long standing bugs, and additional checks on mounts and unmounts to log events so user will be aware of mounting and unmounting issues.
+- Fix: Don't allow a ddisk to be detached if it is mounted.  Doing so leaves the disk in an improperly unmounted state requiring a reboot.
+- Fix: Long standing issue of needing to click "Refresh Disks and Configuration" to get a nvme partition to be recognized after a format.
+- Rem: Remove the device script run in the background device setting.  It no longer makes any sense.  UD scripts initiated from a mount are run in the background.  UD scripts manually initiated in the UI run in the foreground for debugging.
+- Add: Improved file locking for robust and reliable file updates.
+- Add: Run cmdHotplug (Unraid assigns devX assignments to Unassigned Devices) in the background after a Hot Plug event so it does not hold up UI refresh.  Check to see if cmdHotplug is running and don't run it again.
+- Add: More robust device script handling, running status, and abort operations.
+- Add: Don't allow an unmount on a disk if there is any activity on the mountpoint to ensure the disk can be cleanly unmounted.  During a shutdown, the disk is unmounted lazy to ensure it will unmount.
+- Add: Cleaner shutdown ensuring disks are unmounted correctly and won't hang the server shutdown.  Several issues found that could potentially hold up a shutdown.
+- Add: Verification that the UD and User Scripts actually stop when they are aborted by the user or during a shutdown.
+- Add: Check that a mount point is safe to use as a disk mount point.  Checks are made when mounting to verify there has been no writing to the mount point when the disk was not mounted.  The mount is aborted and the user is left to sort out any issues.
+- Add: Hotplug events need to have Unraid determine Unassigned Devices devX designations.  These events are hotplug, format, and clearing the disk or partitions.  Update of the cmdHotplug is now executed as needed rather than depending on the UI refresh loop.
+- Add: Wait for the cmdHotplug to complete on hotplug events to be sure the devs.ini file is updated before operations.
+- Add: Unmount disks and remote shares at the same time when shutting down the array for quicker shutdowns.
+- Note: The User Script abort does not work properly on scripts that run rsync commands.  Rsync spawns a lot of tasks and it takes special handling to ensure the script stops.  Because of this, aborting User Scripts with User Scripts or UD doesn't work.  A PR has been submitted to User Scripts to fix this issue.
+
+###2026.05.26
 - Fix: Extend vfat sync timeout to 180 seconds when unmounting the device and not shutting down the server.
 - Fix: Use the built in call to open and close encrypted disk devices.  In some cases it was not being used.
 - Fix: Encrypted disks failed to open when checking the file system on an encrypted disk.
 - Fix: Could not enable the ntfs3 driver on a zvol formatted as ntfs.
-- Fix: Help rewrite to update the for current operation.
+- Fix: Help rewrite to update for current operation.
 - Add: Verify ZFS pool name is not a reserved ZFS name when formatting and mounting a zfs disk.
 
 ###2026.05.10
@@ -346,7 +371,7 @@ ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/mkmbr.sh /usr/local/sbin
 ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/ud_diagnostics /usr/local/sbin
 
 #
-# Create state folder and mount points
+# Create stale folder and mount points
 #
 mkdir -p /mnt/disks/ /mnt/remotes/ /mnt/addons/ /mnt/rootshare/ /var/state/&plugin;/
 
@@ -443,7 +468,9 @@ at -f "/tmp/&plugin;/add-smb" "now" 2>/dev/null
 #
 # Apply settings to update share settings and copy configuration files to tmp file system.
 #
+echo "Updating share settings..."
 /usr/local/emhttp/plugins/&plugin;/scripts/rc.settings apply 2>/dev/null
+echo "Share settings updated"
 
 #
 # Rename original Dynamix page
