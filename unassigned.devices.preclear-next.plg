@@ -3,14 +3,14 @@
 <!ENTITY name		"unassigned.devices.preclear-next">
 <!ENTITY plugin		"unassigned.devices.preclear">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.03.27">
+<!ENTITY version	"2026.06.22">
 <!ENTITY launch		"Tools/Preclear">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/unassigned.devices-next/discussions/">
 <!ENTITY packages	"/boot/config/plugins/&plugin;/packages">
-<!ENTITY MD5		"f3fa138b0ebd8fffcfe419d0f201c5fa">
+<!ENTITY MD5		"e2887861d2cf4c6adefededa14dc93da">
 ]>
 <PLUGIN name="&plugin;"
 		author="&author;"
@@ -24,6 +24,11 @@
 <CHANGES>
 ###&name;
 ###&version;
+- Fix: Refactor rc.diskinfo to cut down on status file parsing.
+- Fix: Php errors in rc.diskinfo when starting/stopping the array.
+- Fix: Refactor verify signature for a more robust check.
+
+###2026.03.27
 - Notice: Initial release under the new license.
 - Notice: Minimum Unraid version changed to 6.12.  There have been too many UI changes to maintain backwards compatibility beyond 6.12.
 - Fix: Tooltip fixes.
@@ -255,11 +260,6 @@ ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/rc.diskinfo /etc/rc.d/rc.diski
 # Fix permissions of executable files
 #
 chmod +x /usr/local/emhttp/plugins/&plugin;/scripts/* /usr/local/emhttp/plugins/&plugin;/event/*
-
-#
-# Initiate a hot plug event for unassigned devices and preclear
-#
-echo "" > /tmp/unassigned.devices/hotplug_event
 
 #
 # Add ignore rule to Unraid Flash Backup

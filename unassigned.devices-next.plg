@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.06.19">
+<!ENTITY version	"2026.06.22">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"51f0ee8cc2dc5d80b978da67c241c1c6">
+<!ENTITY MD5		"48377010cff5f0dd39ea6b457f44856f">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,12 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: The device script execution was not being checked in the proper order - is the script already running, is it a proper script file, then execute the script.
+- Fix: Remove excessive file locking/unlocking when saving cfg and ini files.  Only one file lock is used when the file is actually written.
+- Fix: Reversion: when Unraid shares are updated (svcs_restarted), UD shares were not being updated.
+- Fix: Update UD Preclear diskinfo when a hot plug event occurs.
+
+###2026.06.19
 - Fix: Removing a remote share did not remove the device script.
 - Fix: Refactor device removal and add warning message to removal dialog that the device script files will be deleted.
 - Fix: Issues with changing disk name on a Historical Device.

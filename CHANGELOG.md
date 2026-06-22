@@ -4,6 +4,35 @@ The **Next** series continues development of the plugins by the original author 
 
 Development of the plugins will continue with ongoing maintenance, reliability improvements, and enhancements.
 
+## Unassigned Devices - Next / Unassigned Devices Preclear - Next
+
+## 2026.06.22
+
+### Reliability & Stability
+
+- Improved overall reliability of device management, hotplug handling, and background processing.
+- Fixed several edge cases that could lead to stale device information or inconsistent status reporting.
+- Improved synchronization between Unassigned Devices and Unassigned Devices Preclear during device events.
+- Enhanced validation and execution checks to improve operational reliability.
+
+### Performance & Efficiency
+
+- Reduced unnecessary file operations and locking activity during configuration updates.
+- Optimized disk status processing to reduce overhead and improve responsiveness.
+- Streamlined internal status monitoring and update handling.
+
+### Device & Share Management
+
+- Improved handling of device information updates during hotplug events.
+- Restored proper synchronization of Unassigned Devices shares when Unraid share services are refreshed.
+- Improved overall consistency of device and share state management.
+
+### Maintenance
+
+- Corrected several PHP issues that could occur during array start and stop operations.
+- Refactored portions of the disk status and validation logic for improved maintainability and long-term reliability.
+- Improved validation routines used by Unassigned Devices Preclear.
+
 ## Unassigned Devices - Next
 
 ## 2026.06.19
