@@ -3,7 +3,7 @@
 <!ENTITY name		"unassigned.devices-plus-next">
 <!ENTITY plugin		"unassigned.devices-plus">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.03.27">
+<!ENTITY version	"2026.07.01">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
@@ -23,6 +23,9 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Update exfatprogs, libbsd, libmd,and parted packages. 
+
+###2026.03.27
 - Notice: Initial release under the new license.
 - Fix: Minimum Unraid version changed to 6.12.
 - Fix: Don't remove parted package since Unraid 7 installs it and uses it.
@@ -82,19 +85,19 @@ rm -rf /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
 </FILE>
 
 <!--
-parted-3.6-x86_64-1.txz
+parted-3.7-x86_64-1.txz
 -->
-<FILE Name="&packages;/parted-3.6-x86_64-1.txz" Run="upgradepkg --install-new">
-<URL>"&gitURL;/packages/parted-3.6-x86_64-1.txz"</URL>
-<MD5>a0d226c87c2bbfda2100030f30bd38ef</MD5>
+<FILE Name="&packages;/parted-3.7-x86_64-1.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/parted-3.7-x86_64-1.txz"</URL>
+<MD5>0961d9967eef1efddd76c0673ad18751</MD5>
 </FILE>
 
 <!--
-exfatprogs-1.3.1-x86_64-1.txz
+exfatprogs-1.4.2-x86_64-1.txz
 -->
-<FILE Min="7.2.0" Name="&packages;/exfatprogs-1.3.1-x86_64-1.txz" Run="upgradepkg --install-new">
-<URL>"&gitURL;/packages/exfatprogs-1.3.1-x86_64-1.txz"</URL>
-<MD5>39a54eb17a85f7e29d1ef6fc264dabfc</MD5>
+<FILE Min="7.2.0" Name="&packages;/exfatprogs-1.4.2-x86_64-1.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/exfatprogs-1.4.2-x86_64-1.txz"</URL>
+<MD5>2e11961505ba5e5139dae90175618cda</MD5>
 </FILE>
 
 <!--
@@ -122,19 +125,19 @@ hfsprogs-332.25-x86_64-2sl.txz
 </FILE>
 
 <!--
-libbsd-0.12.2-x86_64-2cf.txz
+libbsd-0.12.2-x86_64-3cf.txz
 -->
-<FILE Name="&packages;/libbsd-0.12.2-x86_64-2cf.txz" Run="upgradepkg --install-new">
-<URL>"&gitURL;/packages/libbsd-0.12.2-x86_64-2cf.txz"</URL>
-<MD5>a6d3209851527ba366b0b52ad224ea49</MD5>
+<FILE Name="&packages;/libbsd-0.12.2-x86_64-3cf.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/libbsd-0.12.2-x86_64-3cf.txz"</URL>
+<MD5>66b3faab44a743cdf407bd0a01ab9c08</MD5>
 </FILE>
 
 <!--
-libmd-1.1.0-x86_64-1cf.txz
+libmd-1.2.0-x86_64-1cf.txz
 -->
-<FILE Name="&packages;/libmd-1.1.0-x86_64-1cf.txz" Run="upgradepkg --install-new">
-<URL>"&gitURL;/packages/libmd-1.1.0-x86_64-1cf.txz"</URL>
-<MD5>fda82ef327f85477de04ee11d386c0d2</MD5>
+<FILE Name="&packages;/libmd-1.2.0-x86_64-1cf.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/libmd-1.2.0-x86_64-1cf.txz"</URL>
+<MD5>cb7bf47a07547e87046b23fc87626931</MD5>
 </FILE>
 
 <!--
@@ -250,8 +253,8 @@ echo "Removing packages..."
 removepkg hfsprogs-332.25-x86_64-2sl >/dev/null
 removepkg exfat-utils-1.3.0-x86_64-1_slonly >/dev/null
 removepkg fuse-exfat-1.3.0-x86_64-1_slonly.txz >/dev/null
-removepkg libbsd-0.12.2-x86_64-2cf.txz >/dev/null
-removepkg libmd-1.1.0-x86_64-1cf.txz >/dev/null
+removepkg libbsd-0.12.2-x86_64-3cf.txz >/dev/null
+removepkg libmd-1.2.0-x86_64-1cf.txz >/dev/null
 removepkg apfsfuse-v20230312-x86_64-1.txz >/dev/null
 
 #

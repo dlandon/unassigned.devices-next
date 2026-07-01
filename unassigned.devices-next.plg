@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.06.22">
+<!ENTITY version	"2026.07.01">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"48377010cff5f0dd39ea6b457f44856f">
+<!ENTITY MD5		"cc626177689810c81b272c93332fad86">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,18 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Reversion of attach and detach handling of duplicate entries in the file that tracks disks in standby.
+- Fix: Detach from device scripts was not working properly and some devices would not show as standby when detached.
+- Fix: Mount of a UD device from a device script mounted the running device at times.
+- Fix: Ensure explicit ownership (udev or user) is set when a disk is hotplugged or mounted.  It was not correctly done.
+- Rem: Remove the LUKS environment variable from the default device script.  It has no value.  If you used it in your device script, you will have to change your script.
+- Add: Sanitize server name/IP address in 'Remote Tests' tab to remove inappropriate characters.
+- Add: CIFS entries in dmseg log to ud_diagnostics to help troubleshoot remote share issues.
+- Add: Log view capability to Historical Devices to be able to look at the last log when a device is detached or removed.
+- Add: Code to default device script to unmount a disk after a udev script has run.  The idea is to hotplug a device and have it unmount when the udev work is done and optionally spin down and/or detach the disk.
+- Add: Device scripts now receive their environment variables on a per-execution basis, eliminating the possibility of environment variable interference between concurrently launched scripts while preserving existing script execution safeguards.
+
+###2026.06.22
 - Fix: The device script execution was not being checked in the proper order - is the script already running, is it a proper script file, then execute the script.
 - Fix: Remove excessive file locking/unlocking when saving cfg and ini files.  Only one file lock is used when the file is actually written.
 - Fix: Reversion: when Unraid shares are updated (svcs_restarted), UD shares were not being updated.
@@ -221,7 +233,7 @@ fi
 #
 # Remove emhttp files so we can re-install.
 #
-rm -rf /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
+rm -f /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
 
 #
 # Remove old 'bundle' files.
@@ -299,6 +311,16 @@ if [ -f /boot/config/smb-extra.conf ] ; then
 fi
 
 #
+# Clear stale UD runtime status files after installing UD Next.
+#
+/usr/local/emhttp/plugins/unassigned.devices/scripts/get_ud_stats clear_stats >/dev/null 2>&1 || true
+
+#
+# Update servers online status.
+#
+/usr/local/emhttp/plugins/unassigned.devices/scripts/get_ud_stats ping >/dev/null 2>&1 &
+
+#
 # Add entry to /etc/samba/smb.conf
 #
 if [[ `grep '# hook for unassigned devices shares' /etc/samba/smb.conf` = "" ]]; then
@@ -336,7 +358,7 @@ The 'post-install' script.
 #
 # Create logs, config, and device scripts directory.
 #
-mkdir -p /tmp/&plugin;/logs /tmp/&plugin;/config /tmp/&plugin;/scripts
+mkdir -p /tmp/&plugin;/logs /tmp/&plugin;/config /tmp/&plugin;/scripts /tmp/&plugin;/credentials /tmp/&plugin;/authentication /tmp/&plugin;/luks_pass
 
 #
 # Create smb-unassigned.conf if it does not exist
@@ -358,11 +380,6 @@ tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/
 #
 mv /usr/local/emhttp/plugins/&plugin;/99_persistent_unassigned.rules /etc/udev/rules.d/
 chmod 644 -R /etc/udev/rules.d/99_persistent_unassigned.rules 2>/dev/null
-
-#
-# Create a symlink to rm.
-#
-ln -sf /bin/rm /usr/local/emhttp/plugins/&plugin;/scripts/
 
 #
 # Fix permissions of executable files
@@ -599,18 +616,18 @@ mv -f /usr/local/emhttp/plugins/dynamix/OpenDevices.page- /usr/local/emhttp/plug
 #
 # Remove all plugin files from emhttp.
 #
-rm -rf /usr/local/emhttp/plugins/&plugin; 2>/dev/null
+rm -f /usr/local/emhttp/plugins/&plugin; 2>/dev/null
 
 #
 # Remove plugin related directories
 #
-rm -rf /var/state/&plugin;/ \
+rm -f /var/state/&plugin;/ \
 		/tmp/&plugin;/
 
 #
 # Remove the unassigned devices 'bundle' so it will be downloaded if re-installed.
 #
-rm -rf /boot/config/plugins/&plugin;/&name;-&version;.tgz
+rm -f /boot/config/plugins/&plugin;/&name;-&version;.tgz
 
 echo ""
 echo "-----------------------------------------------------------"

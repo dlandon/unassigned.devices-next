@@ -4,6 +4,38 @@ The **Next** series continues development of the plugins by the original author 
 
 Development of the plugins will continue with ongoing maintenance, reliability improvements, and enhancements.
 
+## Unassigned Devices - Next
+
+## 2026.07.01
+
+### Reliability & Device Management
+
+- This release focuses on improving device handling, automation, and overall reliability. Numerous refinements were made to hotplug, detach, standby, ownership, and device script execution to make device management more predictable, especially in automated workflows.
+
+### Automation & Scripting
+
+- Device scripts have been significantly enhanced with isolated per-execution environments, preventing variable leakage between concurrent scripts while maintaining existing execution safeguards. New automation support also makes it easier to perform temporary hotplug operations that automatically clean up by unmounting devices when processing is complete.
+
+### Diagnostics & Troubleshooting
+
+- Diagnostics have been expanded with additional CIFS logging for remote share troubleshooting and log viewing for Historical Devices, making it easier to investigate detach, removal, and remote connectivity issues.
+
+### Compatibility
+
+- A small compatibility change removes the unused `LUKS` environment variable from the device script. Users with custom scripts referencing this variable should update those scripts accordingly.
+
+## Unassigned Devices Plus - Next
+
+### Maintenance
+
+- This release updates several bundled system packages to their latest supported versions, providing ongoing compatibility, stability, and maintenance improvements.
+
+## Unassigned Devices Preclear - Next
+
+### Performance & Stability
+
+- This release improves Preclear performance and reliability through internal refactoring and more efficient status handling. Signature verification has been strengthened, startup/shutdown edge cases have been resolved, and preclear operations now run with lower CPU and I/O priority to minimize impact on normal system workloads. The bundled `tmux` package has also been updated.
+
 ## Unassigned Devices - Next / Unassigned Devices Preclear - Next
 
 ## 2026.06.22

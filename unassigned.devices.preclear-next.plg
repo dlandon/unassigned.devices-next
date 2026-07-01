@@ -3,14 +3,14 @@
 <!ENTITY name		"unassigned.devices.preclear-next">
 <!ENTITY plugin		"unassigned.devices.preclear">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.06.22">
+<!ENTITY version	"2026.07.01">
 <!ENTITY launch		"Tools/Preclear">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/unassigned.devices-next/discussions/">
 <!ENTITY packages	"/boot/config/plugins/&plugin;/packages">
-<!ENTITY MD5		"e2887861d2cf4c6adefededa14dc93da">
+<!ENTITY MD5		"75cf173bb24f2d1c37fe82840d6076c2">
 ]>
 <PLUGIN name="&plugin;"
 		author="&author;"
@@ -27,6 +27,8 @@
 - Fix: Refactor rc.diskinfo to cut down on status file parsing.
 - Fix: Php errors in rc.diskinfo when starting/stopping the array.
 - Fix: Refactor verify signature for a more robust check.
+- Fix: Adjust priorities of preclear operations to keep CPU and I/O load low.
+- Fix: Update tmux package.
 
 ###2026.03.27
 - Notice: Initial release under the new license.
@@ -123,17 +125,9 @@ Get the plugin bundle.
 </FILE>
 
 <!--
-tmux-3.1b-x86_64-1.txz
--->
-<FILE Name="&packages;/tmux-3.1b-x86_64-1.txz" Run="upgradepkg --install-new">
-<URL>"&gitURL;/packages/tmux-3.1b-x86_64-1.txz"</URL>
-<MD5>c8367090c89d26690be706c7fb3db5fc</MD5>
-</FILE>
-
-<!--
 tmux-3.3a-x86_64-1.txz
 -->
-<FILE Min='6.11.0-rc1' Name="&packages;/tmux-3.3a-x86_64-1.txz" Run="upgradepkg --install-new">
+<FILE Min='6.12.0' Name="&packages;/tmux-3.3a-x86_64-1.txz" Run="upgradepkg --install-new">
 <URL>"&gitURL;/packages/tmux-3.3a-x86_64-1.txz"</URL>
 <MD5>6f929e52a448007bf5468ae541fda15c</MD5>
 </FILE>
@@ -152,6 +146,14 @@ tmux-3.5a-x86_64-1.txz
 <FILE Min='7.0.0' Name="&packages;/tmux-3.5a-x86_64-1.txz" Run="upgradepkg --install-new">
 <URL>"&gitURL;/packages/tmux-3.5a-x86_64-1.txz"</URL>
 <MD5>a697e9a8aa8d4704ea8858914f2e2d7d</MD5>
+</FILE>
+
+<!--
+tmux-3.6b-x86_64-1.txz
+-->
+<FILE Min='7.3.0' Name="&packages;/tmux-3.6b-x86_64-1.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/tmux-3.6b-x86_64-1.txz"</URL>
+<MD5>b01f83672dc082c2afed907b34ba4a67</MD5>
 </FILE>
 
 <!--
@@ -178,7 +180,7 @@ The 'pre-install' script.
 #
 # Remove emhttp files so we can re-install.
 #
-rm -rf /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
+rm -f /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
 
 #
 # Remove old 'bundle' files.
@@ -295,31 +297,31 @@ The 'remove' script.
 #
 # Remove diskinfo
 #
-rm -rf /var/local/emhttp/plugins/diskinfo/diskinfo.json /etc/rc.d/rc.diskinfo
+rm -f /var/local/emhttp/plugins/diskinfo/diskinfo.json /etc/rc.d/rc.diskinfo
 
 #
 # Remove plugin
 #
-rm -rf	/usr/local/emhttp/plugins/&plugin;/
+rm -f	/usr/local/emhttp/plugins/&plugin;/
 
 #
 # Remove plugin related files
 #
-rm -rf	/usr/local/bin/preclear \
+rm -f	/usr/local/bin/preclear \
 		/var/run/preclear_queue.pid \
 		/var/log/preclear/preclear.log
 
 #
 # Remove plugin related directories
 #
-rm -rf	/var/state/&plugin; \
+rm -f	/var/state/&plugin; \
 		/tmp/preclear/ \
 		/tmp/.preclear/
 
 #
 # Remove the unassigned devices preclear 'bundle' so it will be downloaded if re-installed.
 #
-rm -rf /boot/config/plugins/&plugin;/&name;-&version;.tgz
+rm -f /boot/config/plugins/&plugin;/&name;-&version;.tgz
 
 echo ""
 echo "-----------------------------------------------------------"
