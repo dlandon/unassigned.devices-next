@@ -4,36 +4,44 @@ The **Next** series continues development of the plugins by the original author 
 
 Development of the plugins will continue with ongoing maintenance, reliability improvements, and enhancements.
 
+## Unassigned Devices - Next / Unassigned Devices Preclear - Next
+
+## 2026.07.25
+
+### Improvements
+- Improved remote share status logging with clearer messages indicating when remote shares go online or offline.
+- Improved plugin installation and uninstallation for a more reliable upgrade experience.
+- Added additional safeguards to protect the unassigned.devices.cfg configuration file from corruption before it is written to the USB flash device.
+- When Internal Boot is enabled, the Unraid flash device is no longer shown as an Unassigned Device since it cannot be managed by Unassigned Devices.
+
+### Fixes
+- Fixed several installation and uninstall issues.
+- Fixed a potential configuration corruption issue under rare circumstances.
+
 ## Unassigned Devices - Next
 
 ## 2026.07.01
 
 ### Reliability & Device Management
-
 - This release focuses on improving device handling, automation, and overall reliability. Numerous refinements were made to hotplug, detach, standby, ownership, and device script execution to make device management more predictable, especially in automated workflows.
 
 ### Automation & Scripting
-
 - Device scripts have been significantly enhanced with isolated per-execution environments, preventing variable leakage between concurrent scripts while maintaining existing execution safeguards. New automation support also makes it easier to perform temporary hotplug operations that automatically clean up by unmounting devices when processing is complete.
 
 ### Diagnostics & Troubleshooting
-
 - Diagnostics have been expanded with additional CIFS logging for remote share troubleshooting and log viewing for Historical Devices, making it easier to investigate detach, removal, and remote connectivity issues.
 
 ### Compatibility
-
 - A small compatibility change removes the unused `LUKS` environment variable from the device script. Users with custom scripts referencing this variable should update those scripts accordingly.
 
 ## Unassigned Devices Plus - Next
 
 ### Maintenance
-
 - This release updates several bundled system packages to their latest supported versions, providing ongoing compatibility, stability, and maintenance improvements.
 
 ## Unassigned Devices Preclear - Next
 
 ### Performance & Stability
-
 - This release improves Preclear performance and reliability through internal refactoring and more efficient status handling. Signature verification has been strengthened, startup/shutdown edge cases have been resolved, and preclear operations now run with lower CPU and I/O priority to minimize impact on normal system workloads. The bundled `tmux` package has also been updated.
 
 ## Unassigned Devices - Next / Unassigned Devices Preclear - Next
@@ -41,26 +49,22 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 ## 2026.06.22
 
 ### Reliability & Stability
-
 - Improved overall reliability of device management, hotplug handling, and background processing.
 - Fixed several edge cases that could lead to stale device information or inconsistent status reporting.
 - Improved synchronization between Unassigned Devices and Unassigned Devices Preclear during device events.
 - Enhanced validation and execution checks to improve operational reliability.
 
 ### Performance & Efficiency
-
 - Reduced unnecessary file operations and locking activity during configuration updates.
 - Optimized disk status processing to reduce overhead and improve responsiveness.
 - Streamlined internal status monitoring and update handling.
 
 ### Device & Share Management
-
 - Improved handling of device information updates during hotplug events.
 - Restored proper synchronization of Unassigned Devices shares when Unraid share services are refreshed.
 - Improved overall consistency of device and share state management.
 
 ### Maintenance
-
 - Corrected several PHP issues that could occur during array start and stop operations.
 - Refactored portions of the disk status and validation logic for improved maintainability and long-term reliability.
 - Improved validation routines used by Unassigned Devices Preclear.
@@ -70,40 +74,34 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 ## 2026.06.19
 
 ### Reliability & Stability
-
 - Improved overall mount, unmount, and device management reliability through significant internal refactoring.
 - Added additional safeguards to prevent devices from entering invalid or improperly unmounted states.
 - Improved shutdown handling to ensure devices and remote shares are cleanly unmounted and to reduce the chance of shutdown delays or hangs.
 - Enhanced file locking and state management for more reliable configuration and status updates.
 
 ### Device Management
-
 - Fixed several issues involving device removal, historical device handling, disk renaming, UUID changes, and mount point management.
 - Added validation to ensure mount points are safe before mounting devices, helping prevent accidental data writes to incorrect locations.
 - Improved handling of hotplug, formatting, and device-clearing events to keep device information synchronized and up to date.
 - Fixed a long-standing issue where newly formatted NVMe partitions were not immediately recognized.
 
 ### Scripts & Automation
-
 - Reworked device script execution, monitoring, logging, and abort handling for improved reliability.
 - Added verification that scripts properly stop when aborted by the user or during system shutdown.
 - Removed the legacy background script execution setting and simplified script behavior.
 - Improved script logging and cleanup throughout the user interface.
 
 ### Performance & Responsiveness
-
 - Improved UI refresh timing and responsiveness.
 - Optimized hotplug processing by moving device assignment updates to background operations when appropriate.
 - Reduced shutdown time by processing disk and remote share unmount operations in parallel.
 
 ### User Experience
-
 - Improved warnings and messaging for device removal operations.
 - Added additional logging and status reporting to help identify mount, unmount, and device-management issues.
 - Cleaned up several dialogs and configuration workflows for a more consistent experience.
 
 ### Notes
-
 - User Script abort operations involving rsync are limited by the way rsync spawns child processes. A pull request has been submitted to User Scripts to improve handling of these scenarios.
 
 ## 2026.05.26
@@ -127,7 +125,6 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 ## 2026.04.22
 
 ### Stability and Reliability Improvements
-
 - Improved script detection and termination for more accurate tracking and cleanup on UD devices.
 - Fixed NTFS3 driver usage for encrypted NTFS disks and improved BTRFS usage reporting.
 - Internal refactoring enhances reliability, reduces edge-case issues, and improves maintainability.

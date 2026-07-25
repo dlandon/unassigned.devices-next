@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.07.01">
+<!ENTITY version	"2026.07.25">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"cc626177689810c81b272c93332fad86">
+<!ENTITY MD5		"ad1e5e674c9b2eb35f4281e2ac2f4964">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,13 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Remote shares online and offline log messages to be clearer about what is online or offline.
+- Fix: Plugin does not uninstall correctly.
+- Fix: Plugin install improvements.
+- Add: Checks to be sure the unassigned.devices.cfg contents is a good configuration before writing to the flash (boot) device so the file does not get corrupted.
+- Add: Don't show the flash device as an Unassigned Device when internal boot is enabled.  It cannot be used in UD.
+
+###2026.07.01
 - Fix: Reversion of attach and detach handling of duplicate entries in the file that tracks disks in standby.
 - Fix: Detach from device scripts was not working properly and some devices would not show as standby when detached.
 - Fix: Mount of a UD device from a device script mounted the running device at times.
@@ -233,7 +240,7 @@ fi
 #
 # Remove emhttp files so we can re-install.
 #
-rm -f /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
+rm -rf /usr/local/emhttp/plugins/&plugin;/*
 
 #
 # Remove old 'bundle' files.
@@ -313,12 +320,12 @@ fi
 #
 # Clear stale UD runtime status files after installing UD Next.
 #
-/usr/local/emhttp/plugins/unassigned.devices/scripts/get_ud_stats clear_stats >/dev/null 2>&1 || true
+/usr/local/emhttp/plugins/unassigned.devices/scripts/get_ud_stats clear_stats
 
 #
 # Update servers online status.
 #
-/usr/local/emhttp/plugins/unassigned.devices/scripts/get_ud_stats ping >/dev/null 2>&1 &
+/usr/local/emhttp/plugins/unassigned.devices/scripts/get_ud_stats ping &
 
 #
 # Add entry to /etc/samba/smb.conf
@@ -356,9 +363,28 @@ The 'post-install' script.
 <FILE Run="/bin/bash">
 <INLINE>
 #
-# Create logs, config, and device scripts directory.
+# Create logs, config, and device scripts directory and set permissions.
 #
-mkdir -p /tmp/&plugin;/logs /tmp/&plugin;/config /tmp/&plugin;/scripts /tmp/&plugin;/credentials /tmp/&plugin;/authentication /tmp/&plugin;/luks_pass
+mkdir -p \
+	/tmp/&plugin;/logs \
+	/tmp/&plugin;/config \
+	/tmp/&plugin;/scripts \
+	/tmp/&plugin;/diagnostics \
+	/tmp/&plugin;/credentials \
+	/tmp/&plugin;/authentication \
+	/tmp/&plugin;/luks_pass
+
+chmod 755 \
+	/tmp/&plugin; \
+	/tmp/&plugin;/logs \
+	/tmp/&plugin;/config \
+	/tmp/&plugin;/scripts \
+	/tmp/&plugin;/diagnostics
+
+chmod 700 \
+	/tmp/&plugin;/credentials \
+	/tmp/&plugin;/authentication \
+	/tmp/&plugin;/luks_pass
 
 #
 # Create smb-unassigned.conf if it does not exist
@@ -379,12 +405,19 @@ tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/
 # Move the rules file
 #
 mv /usr/local/emhttp/plugins/&plugin;/99_persistent_unassigned.rules /etc/udev/rules.d/
-chmod 644 -R /etc/udev/rules.d/99_persistent_unassigned.rules 2>/dev/null
+chmod 644 -R /etc/udev/rules.d/99_persistent_unassigned.rules
+
+#
+# reload udev rules
+#
+udevadm control --reload-rules
 
 #
 # Fix permissions of executable files
 #
-chmod +x /usr/local/emhttp/plugins/&plugin;/scripts/* /usr/local/emhttp/plugins/&plugin;/event/*
+chmod +x \
+	/usr/local/emhttp/plugins/&plugin;/scripts/* \
+	/usr/local/emhttp/plugins/&plugin;/event/*
 
 #
 # Create a symlink to unassigned devices scripts.
@@ -394,89 +427,54 @@ ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/mkmbr.sh /usr/local/sbin
 ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/ud_diagnostics /usr/local/sbin
 
 #
-# Create stale folder and mount points
+# Create state folder and mount points
 #
-mkdir -p /mnt/disks/ /mnt/remotes/ /mnt/addons/ /mnt/rootshare/ /var/state/&plugin;/
+mkdir -p \
+	/mnt/disks/ \
+	/mnt/remotes/ \
+	/mnt/addons/ \
+	/mnt/rootshare/ \
+	/var/state/&plugin;/
 
 #
-# Create a tmpfs mountpoint at /mnt/disks
-# to make sure that writting to an unmounted device doesn't fill all rootfs
-# ps: tmpfs mountpoint will only be created if no disks are mounted yet
+# Create tmpfs mountpoints to prevent writes to an unmounted device
+# from filling the root filesystem.
 #
-mounted_disks="n"
-if ! mountpoint -q /mnt/disks 2>/dev/null; then
-  for dir in /mnt/disks/*; do 
-    if mountpoint -q "$dir" 2>/dev/null; then 
-      mounted_disks="y" 
-    fi
-  done
-  if [ $mounted_disks == "n" ]; then
-    mount -t tmpfs -o size=1M tmpfs /mnt/disks
-  else
-    touch /var/state/&plugin;/reboot_required
-  fi
-fi
-chown nobody:users /mnt/disks
+readonly TMPFS_SIZE="1M"
 
-#
-# Create a tmpfs mountpoint at /mnt/remotes
-# to make sure that a CIFS connection dropout doesn't fill all rootfs
-# ps: tmpfs mountpoint will only be created if no remote mounts are mounted yet
-#
-mounted_remotes="n"
-if ! mountpoint -q /mnt/remotes 2>/dev/null; then
-  for dir in /mnt/remotes/*; do 
-    if mountpoint -q "$dir" 2>/dev/null; then 
-      mounted_remotes="y" 
-    fi
-  done
-  if [ $mounted_remotes == "n" ]; then
-    mount -t tmpfs -o size=1M tmpfs /mnt/remotes
-  else
-    touch /var/state/&plugin;/reboot_required
-  fi
-fi
-chown nobody:users /mnt/remotes
+reboot_required="n"
+reboot_flag="/var/state/&plugin;/reboot_required"
 
-#
-# Create a tmpfs mountpoint at /mnt/addons
-# to make sure that writting to an unmounted device doesn't fill all rootfs
-# ps: tmpfs mountpoint will only be created if no addons are mounted yet
-#
-mounted_addons="n"
-if ! mountpoint -q /mnt/addons 2>/dev/null; then
-  for dir in /mnt/addons/*; do 
-    if mountpoint -q "$dir" 2>/dev/null; then 
-      mounted_addons="y" 
-    fi
-  done
-  if [ $mounted_addons == "n" ]; then
-    mount -t tmpfs -o size=1M tmpfs /mnt/addons
-  else
-    touch /var/state/&plugin;/reboot_required
-  fi
-fi
-chown nobody:users /mnt/addons
+for mount_dir in /mnt/disks /mnt/remotes /mnt/addons /mnt/rootshare; do
+	mounted="n"
 
-#
-# Create a tmpfs mountpoint at /mnt/rootshare
-# to make sure that a CIFS connection dropout doesn't fill all rootfs
-# ps: tmpfs mountpoint will only be created if no rootshare mounts are mounted yet
-#
-mounted_rootshare="n"
-if ! mountpoint -q /mnt/rootshare 2>/dev/null; then
-  for dir in /mnt/rootshare/*; do 
-    if mountpoint -q "$dir" 2>/dev/null; then 
-      mounted_rootshare="y" 
-    fi
-  done
-  if [ $mounted_rootshare == "n" ]; then
-    mount -t tmpfs -o size=1M tmpfs /mnt/rootshare
-  else
-    touch /var/state/&plugin;/reboot_required
-  fi
+	mkdir -p "$mount_dir"
+
+	if ! mountpoint -q "$mount_dir" 2>/dev/null; then
+		for dir in "$mount_dir"/*; do
+			if mountpoint -q "$dir" 2>/dev/null; then
+				mounted="y"
+				break
+			fi
+		done
+
+		if [ "$mounted" = "n" ]; then
+			if ! mount -t tmpfs -o size="$TMPFS_SIZE" tmpfs "$mount_dir"; then
+				reboot_required="y"
+			fi
+		else
+			reboot_required="y"
+		fi
+	fi
+
+	chown nobody:users "$mount_dir"
+done
+
+if [ "$reboot_required" = "y" ]; then
+	if [ ! -e "$reboot_flag" ]; then
+		touch "$reboot_flag"
+	fi
 fi
-chown nobody:users /mnt/rootshare
 
 #
 # Add unassigned_devices to smb.conf.
@@ -509,11 +507,6 @@ find /boot/config/plugins/&plugin; -type f -iname "&name;*.txz" ! -iname "*&vers
 find /boot/config/plugins/&plugin; -type f -iname "&name;*.md5" ! -iname "*&version;*" -delete
 
 #
-# reload udev rules
-#
-udevadm control --reload-rules
-
-#
 # Load the ntfs3 module if it is available
 #
 modprobe ntfs3 2>/dev/null
@@ -541,7 +534,7 @@ first_four_chars=${version:0:4}
 if [[ $first_four_chars == "6.11" || $first_four_chars == "6.12" ]]; then
 	cp /usr/local/emhttp/plugins/&plugin;/include/update.php /usr/local/emhttp/update.php
 else
-	rm /usr/local/emhttp/plugins/&plugin;/include/update.php
+	rm -f /usr/local/emhttp/plugins/&plugin;/include/update.php
 fi
 
 echo ""
@@ -576,6 +569,7 @@ The 'remove' script.
 #
 # umount disks and smb mounts
 #
+echo -n "Unmounting all devices: "
 /usr/local/emhttp/plugins/&plugin;/scripts/rc.unassigned umount all 2>/dev/null
 
 if mountpoint -q "/mnt/disks"; then
@@ -599,9 +593,9 @@ fi
 rmdir /mnt/rootshare 2>/dev/null
 
 rm -f /tmp/plugins/&plugin;.plg \
-      /usr/local/sbin/rc.unassigned \
-	  /usr/local/sbin/mkmbr.sh \
-      /etc/udev/rules.d/99_persistent_unassigned.rules
+	/usr/local/sbin/rc.unassigned \
+	/usr/local/sbin/mkmbr.sh \
+	/etc/udev/rules.d/99_persistent_unassigned.rules
 
 #
 # Reload udev rules
@@ -614,15 +608,12 @@ udevadm control --reload-rules
 mv -f /usr/local/emhttp/plugins/dynamix/OpenDevices.page- /usr/local/emhttp/plugins/dynamix/OpenDevices.page
 
 #
-# Remove all plugin files from emhttp.
+# Remove plugin related directories.
 #
-rm -f /usr/local/emhttp/plugins/&plugin; 2>/dev/null
-
-#
-# Remove plugin related directories
-#
-rm -f /var/state/&plugin;/ \
-		/tmp/&plugin;/
+rm -rf \
+	"/usr/local/emhttp/plugins/&plugin;" \
+	"/var/state/&plugin;" \
+	"/tmp/&plugin;"
 
 #
 # Remove the unassigned devices 'bundle' so it will be downloaded if re-installed.

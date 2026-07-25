@@ -3,14 +3,14 @@
 <!ENTITY name		"unassigned.devices.preclear-next">
 <!ENTITY plugin		"unassigned.devices.preclear">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.07.01">
+<!ENTITY version	"2026.07.25">
 <!ENTITY launch		"Tools/Preclear">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/unassigned.devices-next/discussions/">
 <!ENTITY packages	"/boot/config/plugins/&plugin;/packages">
-<!ENTITY MD5		"75cf173bb24f2d1c37fe82840d6076c2">
+<!ENTITY MD5		"be95cb7123a2103061f45bc97674e037">
 ]>
 <PLUGIN name="&plugin;"
 		author="&author;"
@@ -24,6 +24,9 @@
 <CHANGES>
 ###&name;
 ###&version;
+- Fix: Plugin does not uninstall correctly.
+
+###2026.07.01
 - Fix: Refactor rc.diskinfo to cut down on status file parsing.
 - Fix: Php errors in rc.diskinfo when starting/stopping the array.
 - Fix: Refactor verify signature for a more robust check.
@@ -180,7 +183,7 @@ The 'pre-install' script.
 #
 # Remove emhttp files so we can re-install.
 #
-rm -f /usr/local/emhttp/plugins/&plugin;/* 2>/dev/null
+rm -rf /usr/local/emhttp/plugins/&plugin;/*
 
 #
 # Remove old 'bundle' files.
@@ -199,7 +202,12 @@ unsupported="/var/state/&plugin;/unsupported"
 #
 # Creating some directories
 #
-mkdir -p /tmp/preclear/ /tmp/.preclear/ /usr/local/bin/ /var/state/&plugin;/ /var/log/preclear/
+mkdir -p \
+	/tmp/preclear/ \
+	/tmp/.preclear/ \
+	/usr/local/bin/ \
+	/var/state/&plugin;/ \
+	/var/log/preclear/
 
 echo "Checking tmux operation..."
 
@@ -207,7 +215,7 @@ echo "Checking tmux operation..."
 # Fix tmux tmp directory if needed
 #
 if [ ! -d "/tmp/tmux-0" ]; then
-	mkdir /tmp/tmux-0
+	mkdir -p /tmp/tmux-0
 fi
 chmod 700 /tmp/tmux-0
 chown -R root:root /tmp/tmux-0
@@ -217,6 +225,7 @@ chown -R root:root /tmp/tmux-0
 #
 /usr/bin/tmux new-session -d -x 140 -y 200 -s "install_test_session" &amp;>/dev/null
 sleep 0.5
+
 /usr/bin/tmux kill-session -t "install_test_session" &amp;>/dev/null
 if [ $? -ne 0 ]; then
 	echo "tmux is not working properly" | logger -t "root: plugin: &plugin;.plg"
@@ -236,7 +245,9 @@ tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/
 #
 # Fix permissions of executable files
 #
-chmod +x /usr/local/emhttp/plugins/&plugin;/scripts/* /usr/local/emhttp/plugins/&plugin;/event/*
+chmod +x \
+	/usr/local/emhttp/plugins/&plugin;/scripts/* \
+	/usr/local/emhttp/plugins/&plugin;/event/* 2>/dev/null
 
 #
 # Make sure log file exists
@@ -257,11 +268,6 @@ echo "set -g default-size 100x50" >> /root/.tmux.conf
 # Create a symlink to diskinfo
 #
 ln -sf /usr/local/emhttp/plugins/&plugin;/scripts/rc.diskinfo /etc/rc.d/rc.diskinfo
-
-#
-# Fix permissions of executable files
-#
-chmod +x /usr/local/emhttp/plugins/&plugin;/scripts/* /usr/local/emhttp/plugins/&plugin;/event/*
 
 #
 # Add ignore rule to Unraid Flash Backup
@@ -297,26 +303,30 @@ The 'remove' script.
 #
 # Remove diskinfo
 #
-rm -f /var/local/emhttp/plugins/diskinfo/diskinfo.json /etc/rc.d/rc.diskinfo
+rm -f \
+	/var/local/emhttp/plugins/diskinfo/diskinfo.json \
+	/etc/rc.d/rc.diskinfo
 
 #
 # Remove plugin
 #
-rm -f	/usr/local/emhttp/plugins/&plugin;/
+rm -rf /usr/local/emhttp/plugins/&plugin;/
 
 #
-# Remove plugin related files
+# Remove plugin related files.
 #
-rm -f	/usr/local/bin/preclear \
-		/var/run/preclear_queue.pid \
-		/var/log/preclear/preclear.log
+rm -f \
+	/usr/local/bin/preclear \
+	/var/run/preclear_queue.pid \
+	/var/log/preclear/preclear.log
 
 #
 # Remove plugin related directories
 #
-rm -f	/var/state/&plugin; \
-		/tmp/preclear/ \
-		/tmp/.preclear/
+rm -rf \
+	/var/state/&plugin; \
+	/tmp/preclear/ \
+	/tmp/.preclear/
 
 #
 # Remove the unassigned devices preclear 'bundle' so it will be downloaded if re-installed.
