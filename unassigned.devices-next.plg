@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.07.25">
+<!ENTITY version	"2026.09.17">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"ad1e5e674c9b2eb35f4281e2ac2f4964">
+<!ENTITY MD5		"fefb9ebb8a18cd3f1ac92baed02dd662">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,13 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: IPv6 mounting of NFS and CIFS mounts and proper detection of mounted status.
+- Fix: IPv6 server "Load Shares" when server IP is IPv6 address.
+- Fix: Overall handling of IPv6 remote shares.
+- Rem: Removed 'sync' command from the remove all partitions function.  It's not necessary and can be a huge delay if there is a lot of file activity on the array.
+- Add: Unraid version to UD Diagnostics.
+
+###2026.07.25
 - Fix: Remote shares online and offline log messages to be clearer about what is online or offline.
 - Fix: Plugin does not uninstall correctly.
 - Fix: Plugin install improvements.
@@ -308,7 +315,7 @@ Add smb parameters for UD.
 if [ -f /boot/config/smb-extra.conf ] ; then
 	if [[ `/usr/bin/grep '#unassigned_devices' /boot/config/smb-extra.conf 2> /dev/null` != "" ]]; then
 		/usr/bin/sed '/#unassigned_devices_start/,/#unassigned_devices_end/d' /boot/config/smb-extra.conf > /tmp/smb.tmp
-		mv /tmp/smb.tmp /boot/config/smb-extra.conf
+		mv -f /tmp/smb.tmp /boot/config/smb-extra.conf
 	fi
 
 	#
@@ -338,7 +345,7 @@ if [ -e /tmp/unassigned.devices/smb-settings.conf ]; then
 	#
 	# Move the previous smb-settings.conf file
 	#
-	mv /tmp/unassigned.devices/smb-settings.conf /etc/samba/smb-unassigned.conf
+	mv -f /tmp/unassigned.devices/smb-settings.conf /etc/samba/smb-unassigned.conf
 fi
 
 #
@@ -404,7 +411,7 @@ tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/
 #
 # Move the rules file
 #
-mv /usr/local/emhttp/plugins/&plugin;/99_persistent_unassigned.rules /etc/udev/rules.d/
+mv -f /usr/local/emhttp/plugins/&plugin;/99_persistent_unassigned.rules /etc/udev/rules.d/
 chmod 644 -R /etc/udev/rules.d/99_persistent_unassigned.rules
 
 #

@@ -6,6 +6,15 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 
 ## Unassigned Devices - Next / Unassigned Devices Preclear - Next
 
+## 2026.09.17
+
+### Changes
+- Fixed IPv6 handling for NFS and CIFS remote share mounts, including mounted-status detection.
+- Fixed **Load Shares** when the remote server uses an IPv6 address.
+- Improved overall IPv6 remote share handling.
+- Removed the unnecessary `sync` command when removing all partitions. This prevents potentially long delays when the array has heavy file activity.
+- Added the Unraid version to UD Diagnostics.
+
 ## 2026.07.25
 
 ### Improvements
