@@ -4,7 +4,18 @@ The **Next** series continues development of the plugins by the original author 
 
 Development of the plugins will continue with ongoing maintenance, reliability improvements, and enhancements.
 
-## Unassigned Devices - Next / Unassigned Devices Preclear - Next
+## Unassigned Devices - Next
+
+## 2026.10.05
+
+### Tailscale Discovery
+- SMB and NFS server searches now include reachable Tailscale peers, using DNS names when available or IP addresses otherwise. Local servers appear first, with duplicates removed. NFS discovery still requires `showmount` exports.
+
+### Remote Share Reliability
+- Improved duplicate detection prevents the same share from being mounted through different Tailscale names or IP addresses while allowing existing configurations to be updated.
+- Corrected NFS mount-status detection when the reported server name differs from the configured name, and fixed duplicate mountpoint checking across devices.
+
+## Unassigned Devices - Next
 
 ## 2026.09.17
 
@@ -14,6 +25,8 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 - Improved overall IPv6 remote share handling.
 - Removed the unnecessary `sync` command when removing all partitions. This prevents potentially long delays when the array has heavy file activity.
 - Added the Unraid version to UD Diagnostics.
+
+## Unassigned Devices - Next / Unassigned Devices Preclear - Next
 
 ## 2026.07.25
 

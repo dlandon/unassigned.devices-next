@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.09.17">
+<!ENTITY version	"2026.10.05">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"fefb9ebb8a18cd3f1ac92baed02dd662">
+<!ENTITY MD5		"9ddf11e4b99b8ddd58d46678acea17a6">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,13 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Improved remote-share duplicate detection using the Tailscale peer ID to identify the same server across its Tailscale name and IP address. Exact re-adds remain available for updating an existing configuration.
+- Fix: Prevented mounting the same remote share twice through different Tailscale addresses or names when another matching configuration is already mounted.
+- Fix: Corrected NFS mount-status detection when '/proc/mounts' reports a different server name from the one configured in UD.
+- Fix: Corrected duplicate mountpoint checking so another device's matching share name cannot be excluded from the check.
+- Add: Added Tailscale peer discovery to SMB and NFS server searches. Reachable peers are checked for the appropriate service, then listed by their Tailscale DNS name when resolvable or by IP address otherwise. Local servers appear first, followed by Tailscale servers - duplicates are removed. NFS discovery continues to require 'showmount' exports.
+
+###2026.09.17
 - Fix: IPv6 mounting of NFS and CIFS mounts and proper detection of mounted status.
 - Fix: IPv6 server "Load Shares" when server IP is IPv6 address.
 - Fix: Overall handling of IPv6 remote shares.
