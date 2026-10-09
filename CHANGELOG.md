@@ -6,6 +6,14 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 
 ## Unassigned Devices - Next
 
+## 2026.10.09
+
+### NVMe Detection & Compatibility
+- Fixed NVMe disks incorrectly appearing empty with only the **Format** option on Unraid 7.3.3 and 7.4.0-rc1.
+- Improved disk and partition identification across supported device types.
+
+## Unassigned Devices - Next
+
 ## 2026.10.05
 
 ### Tailscale Discovery

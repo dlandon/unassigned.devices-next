@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.10.05">
+<!ENTITY version	"2026.10.09">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"9ddf11e4b99b8ddd58d46678acea17a6">
+<!ENTITY MD5		"a4eb9e4fcc6827240fdac75371f166ff">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,10 @@
 <CHANGES>
 ##&name;
 ###&version;
+Fix: Corrected NVMe partition discovery with mismatched device aliases, an issue exposed by Unraid 7.3.3 and 7.4.0-rc1 that caused existing disks to appear empty with only the Format option.
+Fix: Corrected parent-device identification for NVMe and other supported partition names, including multi-digit partition numbers.
+
+###2026.10.05
 - Fix: Improved remote-share duplicate detection using the Tailscale peer ID to identify the same server across its Tailscale name and IP address. Exact re-adds remain available for updating an existing configuration.
 - Fix: Prevented mounting the same remote share twice through different Tailscale addresses or names when another matching configuration is already mounted.
 - Fix: Corrected NFS mount-status detection when '/proc/mounts' reports a different server name from the one configured in UD.
