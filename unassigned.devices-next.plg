@@ -24,8 +24,8 @@
 <CHANGES>
 ##&name;
 ###&version;
-Fix: Corrected NVMe partition discovery with mismatched device aliases, an issue exposed by Unraid 7.3.3 and 7.4.0-rc1 that caused existing disks to appear empty with only the Format option.
-Fix: Corrected parent-device identification for NVMe and other supported partition names, including multi-digit partition numbers.
+- Fix: Corrected NVMe partition discovery with mismatched device aliases, an issue exposed by Unraid 7.3.3 and 7.4.0-rc1 that caused existing disks to appear empty with only the Format option.
+- Fix: Corrected parent-device identification for NVMe and other supported partition names, including multi-digit partition numbers.
 
 ###2026.10.05
 - Fix: Improved remote-share duplicate detection using the Tailscale peer ID to identify the same server across its Tailscale name and IP address. Exact re-adds remain available for updating an existing configuration.
