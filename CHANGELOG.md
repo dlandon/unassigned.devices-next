@@ -17,7 +17,7 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 - Updated Udev help text to explain device detection issues and how to refresh device information.
 
 ### USB Disk Identifier Changes
-- On Unraid 7.3.3 and 7.4.0-rc1, Udev may report both the USB enclosure ID (`ID_USB_SERIAL`) and the drive?s own ID (`ID_SERIAL`). UD keeps using the older USB ID when a matching configuration entry exists, preserving the disk's saved settings. If that configuration is removed, UD has no old ID to match and uses the drive's own ID instead. The disk may then appear under a different ID with a new configuration entry. This is expected and allows drives in the same enclosure to be identified separately.
+- On Unraid 7.3.3 and 7.4.0-rc1, Udev may report both the USB enclosure ID (`ID_USB_SERIAL`) and the drive's own ID (`ID_SERIAL`). UD keeps using the older USB ID when a matching configuration entry exists, preserving the disk's saved settings. If that configuration is removed, UD has no old ID to match and uses the drive's own ID instead. The disk may then appear under a different ID with a new configuration entry. This is expected and allows drives in the same enclosure to be identified separately.
 
 ## Unassigned Devices - Next
 
