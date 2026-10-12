@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.10.09">
+<!ENTITY version	"2026.10.12">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"a4eb9e4fcc6827240fdac75371f166ff">
+<!ENTITY MD5		"d250532c2ff808a94cec561516f4bbeb">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,12 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Improved detection of missing or conflicting partition and filesystem information, blocking Format when disk information cannot be verified.
+- Fix: Updated Udev help text to explain detection issues and how to refresh device information.
+- Fix: Preserved saved USB disk settings when device identifiers change on Unraid 7.3.3 and 7.4.0-rc1.
+- Fix: Corrected USB disk detection to retain USB automount and sharing behavior.
+
+###2026.10.09
 - Fix: Corrected NVMe partition discovery with mismatched device aliases, an issue exposed by Unraid 7.3.3 and 7.4.0-rc1 that caused existing disks to appear empty with only the Format option.
 - Fix: Corrected parent-device identification for NVMe and other supported partition names, including multi-digit partition numbers.
 
