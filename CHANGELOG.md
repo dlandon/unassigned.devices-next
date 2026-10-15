@@ -4,6 +4,43 @@ The **Next** series continues development of the plugins by the original author 
 
 Development of the plugins will continue with ongoing maintenance, reliability improvements, and enhancements.
 
+## Unassigned Devices - Next / Unassigned Devices Preclear - Next
+
+## 2026.10.15
+
+### Formatting & Disk Safety
+- Strengthened Format validation to block formatting when disk information cannot be verified or the disk is in use.
+- Improved recognition of verified empty partition tables and preclear signatures when determining whether formatting is allowed.
+- Formatting now stops if partition creation or filesystem preparation fails.
+- Reduced repeated GPT partitioning commands to shorten formatting time.
+
+### Partition & Disk Clearing
+- Strengthened partition removal and disk clearing safeguards to protect mounted, assigned, and busy disks.
+- Partition removal and disk clearing now detect command failures and report unsuccessful operations.
+- Disk clearing removes recognized signatures from all discovered partitions and the disk.
+- The Clearing status now covers validation and is removed when the operation completes or fails.
+
+### Mounting & Configuration
+- Disk and remote-share logs now identify the operation preventing a mount or unmount.
+- Corrected disk-name validation so a blank name restores the default devX name without allowing reserved device designations as aliases.
+
+### Dashboard
+- Added a JSON data action that provides the dashboard tile with device details and partition statistics.
+- Added an Unassigned Devices dashboard tile showing device names, icons, status, temperature, SMART health, and utilization. It includes historical disks in standby and refreshes every three seconds while visible.
+
+### Preclear Safety & Eligibility
+- Strengthened preclear eligibility checks to exclude assigned, formatted, mounted, or busy disks.
+- Improved consistency between UD and the Preclear UI when offering preclear operations.
+- Added clearer logging when preclear cannot start or a disk fails eligibility checks.
+
+### Job Discovery & Resume
+- Improved disk discovery so running jobs remain visible and saved jobs appear resumable only when the disk identity is verified.
+- Added disk identity verification before resuming a saved preclear job.
+- Tightened process detection to identify the specific disk being processed.
+
+### Command-Line Cleanup
+- Removed the obsolete, unused dialog-based preclear.sh command-line interface.
+
 ## Unassigned Devices - Next
 
 ## 2026.10.12

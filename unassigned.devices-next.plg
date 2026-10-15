@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.10.12">
+<!ENTITY version	"2026.10.15">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"d250532c2ff808a94cec561516f4bbeb">
+<!ENTITY MD5		"441902dbf053a47bc5ae22017bb960de">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,17 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Strengthened Format validation to block formatting when disk information cannot be verified or the disk is in use; improved handling of verified empty partition tables and preclear signatures.
+- Fix: Formatting now stops if partition creation or filesystem preparation fails, and avoids redundant GPT partitioning commands.
+- Fix: Strengthened partition removal and disk clearing safeguards for mounted, assigned, or busy disks; recognized signatures are removed from discovered partitions and the disk.
+- Fix: Partition removal and disk clearing detect command failures and report unsuccessful operations.
+- Fix: The Clearing status now covers validation and is removed when the operation completes or fails.
+- Fix: Disk and remote-share logs identify the operation preventing a mount or unmount.
+- Fix: A blank disk name restores the default devX name without allowing reserved device designations as aliases.
+- Add: Added a JSON data action that provides the dashboard tile with device details and partition statistics.
+- Add: Added an Unassigned Devices dashboard tile showing aliases, device icons, status, temperature, SMART health, and utilization. It includes historical disks in standby and refreshes every three seconds while visible.
+
+###2026.10.12
 - Fix: Improved detection of missing or conflicting partition and filesystem information, blocking Format when disk information cannot be verified.
 - Fix: Updated Udev help text to explain detection issues and how to refresh device information.
 - Fix: Preserved saved USB disk settings when device identifiers change on Unraid 7.3.3 and 7.4.0-rc1.

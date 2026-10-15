@@ -3,14 +3,14 @@
 <!ENTITY name		"unassigned.devices.preclear-next">
 <!ENTITY plugin		"unassigned.devices.preclear">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.07.25">
+<!ENTITY version	"2026.10.15">
 <!ENTITY launch		"Tools/Preclear">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/unassigned.devices-next/discussions/">
 <!ENTITY packages	"/boot/config/plugins/&plugin;/packages">
-<!ENTITY MD5		"be95cb7123a2103061f45bc97674e037">
+<!ENTITY MD5		"48c3664ff22c715bafa3a1d12fd1e5b4">
 ]>
 <PLUGIN name="&plugin;"
 		author="&author;"
@@ -24,6 +24,15 @@
 <CHANGES>
 ###&name;
 ###&version;
+- Rem: Removed the obsolete, unused dialog-based preclear.sh command-line interface.
+- Fix: Strengthened preclear eligibility checks to exclude assigned, formatted, mounted, or busy disks.
+- Fix: Improved disk discovery so running jobs remain visible and saved jobs are shown as resumable only when their disk identity is verified.
+- Fix: Verify disk identity before resuming a saved preclear job.
+- Fix: Improved consistency between UD and the Preclear UI when offering preclear operations.
+- Fix: Tightened preclear process detection to identify the specific disk being processed.
+- Fix: Added clearer logging when preclear cannot start or disk eligibility checks fail.
+
+###2026.07.25
 - Fix: Plugin does not uninstall correctly.
 
 ###2026.07.01
