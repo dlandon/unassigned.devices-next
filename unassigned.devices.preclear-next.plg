@@ -3,14 +3,14 @@
 <!ENTITY name		"unassigned.devices.preclear-next">
 <!ENTITY plugin		"unassigned.devices.preclear">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.10.15">
+<!ENTITY version	"2026.10.25">
 <!ENTITY launch		"Tools/Preclear">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/unassigned.devices-next/discussions/">
 <!ENTITY packages	"/boot/config/plugins/&plugin;/packages">
-<!ENTITY MD5		"48c3664ff22c715bafa3a1d12fd1e5b4">
+<!ENTITY MD5		"e8053803a5c9f0ce45e00bab309e9c2c">
 ]>
 <PLUGIN name="&plugin;"
 		author="&author;"
@@ -24,6 +24,10 @@
 <CHANGES>
 ###&name;
 ###&version;
+- Fix: Preclear log missing done button and some refactoring for robustness.
+- Fix: A disk is verified that there are no file systems on the disk before a write operation is performed. Verify operations like verify signature are not checked for existing file systems.
+
+###2026.10.15
 - Rem: Removed the obsolete, unused dialog-based preclear.sh command-line interface.
 - Fix: Strengthened preclear eligibility checks to exclude assigned, formatted, mounted, or busy disks.
 - Fix: Improved disk discovery so running jobs remain visible and saved jobs are shown as resumable only when their disk identity is verified.

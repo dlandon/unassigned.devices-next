@@ -6,6 +6,32 @@ Development of the plugins will continue with ongoing maintenance, reliability i
 
 ## Unassigned Devices - Next / Unassigned Devices Preclear - Next
 
+## 2026.10.25
+
+### Fixed
+- Made minor UI fixes to the Unassigned Devices page and dashboard tile.
+- Improved robustness on the Unassigned Devices main page.
+- Fixed the **Done** text on the file system check dialog in Unraid 7.4.0-rc.1.
+- Relaxed the format validity check, which was too restrictive.
+- Fixed Device Settings so clearing the user file field removes the device association without deleting the file from the flash drive.
+- Paused dashboard tile refreshes while the SMART menu is open, preventing it from closing unexpectedly.
+- Fixed the dashboard tile to respect the selected display mode: text, colored bar, or gray bar.
+- Fixed switch behavior on the UD main page and in Device Settings so displayed states stay synchronized with their settings. Historical visibility is now independent of the Disks switch.
+- Refactored the mount/unmount button handler.
+
+### Added
+- Delete the preclear resume file after a disk is successfully formatted, preventing an inappropriate preclear resume.
+- Added a dashboard tile settings link to the Unassigned Devices Settings page.
+- Prevented long identifiers from overflowing confirmation dialogs by displaying them with a middle ellipsis.
+- Added disk serial numbers to the **Clear Disk** and **Remove Partition** dialogs. The full serial is available on hover.
+
+### Fixed
+- Fixed the missing **Done** button in the preclear log and refactored the code for improved robustness.
+- Before a write operation, verify that the disk has no file systems. Non-write verification operations, such as **Verify Signature**, are not subject to this check.
+
+
+## Unassigned Devices - Next / Unassigned Devices Preclear - Next
+
 ## 2026.10.15
 
 ### Formatting & Disk Safety

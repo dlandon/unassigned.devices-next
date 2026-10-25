@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.10.15">
+<!ENTITY version	"2026.10.25">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"441902dbf053a47bc5ae22017bb960de">
+<!ENTITY MD5		"82f97293b623d5331da5cd3bcf0334ec">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,20 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Minor UI fixes on Unassigned Devices page and dashboard.
+- Fix: Changes to Unassigned Devices main page for robustness and fragile code.
+- Fix: Done text not showing on the file system check done button on 7.4.0-rc.1.
+- Fix: Relax the format valid check when formatting a disk. It was too restrictive.
+- Fix: Fix Device Settings so clearing the user file field will remove the file association to the device but not delete the file from the flash drive.
+- Fix: Paused dashboard tile refreshes while the SMART menu is in use to prevent it from closing unexpectedly.
+- Fix: The dashboard tile did not respect the different display modes - text, bar color, and bar gray modes.
+- Fix: Corrected switch behavior on the UD main page and in Device Settings so the displayed state stays synchronized with the setting. Historical visibility is now independent of the Disks switch.
+- Fix: Refactor mount/unmount button handler.
+- Add: When a disk is successfully formatted in Unassigned Devices, the preclear resume file is deleted to prevent an inappropriate preclear resume.
+- Add: The settings link on the dashboard tile now goes to the Unassigned Devices Settings page.
+- Add: Prevented long identifiers from overflowing confirmation dialogs by displaying them with a middle ellipsis; added disk serials to Clear Disk and Remove Partition dialogs, with the full serial available on hover.
+
+###2026.10.15
 - Fix: Strengthened Format validation to block formatting when disk information cannot be verified or the disk is in use; improved handling of verified empty partition tables and preclear signatures.
 - Fix: Formatting now stops if partition creation or filesystem preparation fails, and avoids redundant GPT partitioning commands.
 - Fix: Strengthened partition removal and disk clearing safeguards for mounted, assigned, or busy disks; recognized signatures are removed from discovered partitions and the disk.
