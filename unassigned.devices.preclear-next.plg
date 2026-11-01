@@ -3,14 +3,14 @@
 <!ENTITY name		"unassigned.devices.preclear-next">
 <!ENTITY plugin		"unassigned.devices.preclear">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.10.25">
+<!ENTITY version	"2026.11.01">
 <!ENTITY launch		"Tools/Preclear">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/unassigned.devices-next/discussions/">
 <!ENTITY packages	"/boot/config/plugins/&plugin;/packages">
-<!ENTITY MD5		"e8053803a5c9f0ce45e00bab309e9c2c">
+<!ENTITY MD5		"dcfeb993fb167bd6327e72e9c77940ba">
 ]>
 <PLUGIN name="&plugin;"
 		author="&author;"
@@ -24,6 +24,20 @@
 <CHANGES>
 ###&name;
 ###&version;
+- Fix: Update tmux and utempter packages.
+- Fix: Identify disks by device path in queue and multi-disk actions.
+- Fix: Use a hash of the full disk serial for tmux sessions and resume files; retain support for legacy sessions and resume files.
+- Fix: Match individual-drive log links to the serial used in the preclear log.
+- Fix: Use the unique disk key for completed report filenames and display; retain support for legacy reports.
+- Fix: Clarify that Resume All applies to paused sessions by updating the tooltip.
+- Fix: Stop installation and report bundle extraction failures.
+- Fix: Prevent removal while preclear sessions are active, paused, or queued.
+- Fix: Install only the tmux and utempter packages appropriate for the Unraid version.
+- Fix: Clear stale unsupported status after a successful tmux check.
+- Fix: Preserve existing root tmux configuration during installation.
+- Fix: Discover and allow signature verification on precleared disks whose marker is exposed by Linux as a partition, including disks larger than 2 TB.
+
+###2026.10.25
 - Fix: Preclear log missing done button and some refactoring for robustness.
 - Fix: A disk is verified that there are no file systems on the disk before a write operation is performed. Verify operations like verify signature are not checked for existing file systems.
 
@@ -143,7 +157,7 @@ Get the plugin bundle.
 <!--
 tmux-3.3a-x86_64-1.txz
 -->
-<FILE Min='6.12.0' Name="&packages;/tmux-3.3a-x86_64-1.txz" Run="upgradepkg --install-new">
+<FILE Min='6.12.0' Max='6.13.0-beta.1.7' Name="&packages;/tmux-3.3a-x86_64-1.txz" Run="upgradepkg --install-new">
 <URL>"&gitURL;/packages/tmux-3.3a-x86_64-1.txz"</URL>
 <MD5>6f929e52a448007bf5468ae541fda15c</MD5>
 </FILE>
@@ -151,7 +165,7 @@ tmux-3.3a-x86_64-1.txz
 <!--
 tmux-3.4-x86_64-1.txz
 -->
-<FILE Min='6.13.0-beta.1.8' Name="&packages;/tmux-3.4-x86_64-1.txz" Run="upgradepkg --install-new">
+<FILE Min='6.13.0-beta.1.8' Max='6.99.99' Name="&packages;/tmux-3.4-x86_64-1.txz" Run="upgradepkg --install-new">
 <URL>"&gitURL;/packages/tmux-3.4-x86_64-1.txz"</URL>
 <MD5>a5f489e6b37800c4da6687e56a3f8d94</MD5>
 </FILE>
@@ -159,33 +173,33 @@ tmux-3.4-x86_64-1.txz
 <!--
 tmux-3.5a-x86_64-1.txz
 -->
-<FILE Min='7.0.0' Name="&packages;/tmux-3.5a-x86_64-1.txz" Run="upgradepkg --install-new">
+<FILE Min='7.0.0' Max='7.2.99' Name="&packages;/tmux-3.5a-x86_64-1.txz" Run="upgradepkg --install-new">
 <URL>"&gitURL;/packages/tmux-3.5a-x86_64-1.txz"</URL>
 <MD5>a697e9a8aa8d4704ea8858914f2e2d7d</MD5>
 </FILE>
 
 <!--
-tmux-3.6b-x86_64-1.txz
+tmux-3.8-x86_64-1.txz
 -->
-<FILE Min='7.3.0' Name="&packages;/tmux-3.6b-x86_64-1.txz" Run="upgradepkg --install-new">
-<URL>"&gitURL;/packages/tmux-3.6b-x86_64-1.txz"</URL>
-<MD5>b01f83672dc082c2afed907b34ba4a67</MD5>
+<FILE Min='7.3.0' Name="&packages;/tmux-3.8-x86_64-1.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/tmux-3.8-x86_64-1.txz"</URL>
+<MD5>b125ee3449580a4f0c4ac5d366c4c8d5</MD5>
 </FILE>
 
 <!--
 utempter-1.2.1-x86_64-1.txz
 -->
-<FILE Name="&packages;/utempter-1.2.1-x86_64-1.txz" Run="upgradepkg --install-new">
+<FILE Max='7.0.99' Name="&packages;/utempter-1.2.1-x86_64-1.txz" Run="upgradepkg --install-new">
 <URL>"&gitURL;/packages/utempter-1.2.1-x86_64-1.txz"</URL>
 <MD5>8843badd5e5cb333334a069fcafb233b</MD5>
 </FILE>
 
 <!--
-utempter-1.2.3-x86_64-1.txz
+utempter-1.2.3-x86_64-2.txz
 -->
-<FILE Min='7.1.0' Name="&packages;/utempter-1.2.3-x86_64-1.txz" Run="upgradepkg --install-new">
-<URL>"&gitURL;/packages/utempter-1.2.3-x86_64-1.txz"</URL>
-<MD5>e87df8d5a750c2cc2e12382704279601</MD5>
+<FILE Min='7.1.0' Name="&packages;/utempter-1.2.3-x86_64-2.txz" Run="upgradepkg --install-new">
+<URL>"&gitURL;/packages/utempter-1.2.3-x86_64-2.txz"</URL>
+<MD5>7fa367323ab0ca4cc2e2896a230f80ca</MD5>
 </FILE>
 
 <!--
@@ -239,8 +253,9 @@ chown -R root:root /tmp/tmux-0
 /usr/bin/tmux new-session -d -x 140 -y 200 -s "install_test_session" &amp;>/dev/null
 sleep 0.5
 
-/usr/bin/tmux kill-session -t "install_test_session" &amp;>/dev/null
-if [ $? -ne 0 ]; then
+if /usr/bin/tmux kill-session -t "install_test_session" &amp;>/dev/null; then
+	rm -f "$unsupported"
+else
 	echo "tmux is not working properly" | logger -t "root: plugin: &plugin;.plg"
 	touch "$unsupported"
 fi
@@ -253,7 +268,10 @@ mkdir -p /boot/config/plugins/&plugin;
 #
 # Install the 'bundle'.
 #
-tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/plugins 2>/dev/null
+if ! tar -xf "/boot/config/plugins/&plugin;/&name;-&version;.tgz" -C /usr/local/emhttp/plugins; then
+	echo "ERROR: Failed to extract the &name; installation bundle."
+	exit 1
+fi
 
 #
 # Fix permissions of executable files
@@ -268,9 +286,11 @@ chmod +x \
 touch /var/log/preclear/preclear.log
 
 #
-# Set correct terminal type for TMUX
+# Create default TMUX configuration if none exists.
 #
-echo "set -g default-terminal 'linux'" > /root/.tmux.conf
+if [ ! -e /root/.tmux.conf ]; then
+	printf '%s\n' "set -g default-terminal 'linux'" "set -g default-size 100x50" > /root/.tmux.conf
+fi
 
 #
 # Set default terminal size for TMUX
@@ -307,6 +327,16 @@ The 'remove' script.
 -->
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
+#
+# Block removal while preclear sessions are active, paused, or queued.
+# Exclude temporary report-viewer sessions.
+#
+preclear_sessions=$(/usr/bin/tmux list-sessions -F '#{session_name}' 2>/dev/null | grep '^preclear_disk_' | grep -v '^preclear_disk_report_')
+
+if [ -n "$preclear_sessions" ]; then
+	echo "ERROR: Stop all preclear sessions before removing &name;."
+	exit 1
+fi
 
 #
 # kill all preclear sessions

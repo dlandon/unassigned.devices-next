@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.10.25">
+<!ENTITY version	"2026.11.01">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"82f97293b623d5331da5cd3bcf0334ec">
+<!ENTITY MD5		"714e015518f24ebabe5dd98fa1ee3e8a">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,6 +24,19 @@
 <CHANGES>
 ##&name;
 ###&version;
+- Fix: Corrected the mount-button status for disks with partitions but no filesystem.
+- Fix: Show '--' in the FSType column when no filesystem is detected, including on ZFS volumes.
+- Fix: Verify filesystem detection against udev so mismatches are reported as a Udev issue.
+- Fix: Associate preclear status indicators with the correct device when short serial numbers are duplicated.
+- Fix: Remove hash-keyed and legacy preclear resume files when formatting a disk.
+- Fix: Stop installation and report bundle extraction failures.
+- Fix: Prevent removal while preclear sessions are active or devices cannot be unmounted.
+- Fix: Clear stale reboot-required status after successful mountpoint setup.
+- Fix: Remove the diagnostics utility symlink during uninstall.
+- Fix: Restore the original Dynamix page only when its saved copy exists.
+- Fix: Recognize verified preclear marker partitions and offer Format and Preclear consistently with partitionless precleared disks.
+
+###2026.10.25
 - Fix: Minor UI fixes on Unassigned Devices page and dashboard.
 - Fix: Changes to Unassigned Devices main page for robustness and fragile code.
 - Fix: Done text not showing on the file system check done button on 7.4.0-rc.1.
@@ -448,7 +461,10 @@ mkdir -p /boot/config/plugins/&plugin;
 #
 # Install the 'bundle'.
 #
-tar -xf /boot/config/plugins/&plugin;/&name;-&version;.tgz -C /usr/local/emhttp/plugins 2>/dev/null
+if ! tar -xf "/boot/config/plugins/&plugin;/&name;-&version;.tgz" -C /usr/local/emhttp/plugins; then
+	echo "ERROR: Failed to extract the &name; installation bundle."
+	exit 1
+fi
 
 #
 # Move the rules file
@@ -520,9 +536,9 @@ for mount_dir in /mnt/disks /mnt/remotes /mnt/addons /mnt/rootshare; do
 done
 
 if [ "$reboot_required" = "y" ]; then
-	if [ ! -e "$reboot_flag" ]; then
-		touch "$reboot_flag"
-	fi
+	touch "$reboot_flag"
+else
+	rm -f "$reboot_flag"
 fi
 
 #
@@ -616,11 +632,30 @@ The 'remove' script.
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
 #
+# Block removal while preclear sessions are active, paused, or queued.
+# Exclude temporary report-viewer sessions.
+#
+preclear_sessions=$(/usr/bin/tmux list-sessions -F '#{session_name}' 2>/dev/null | grep '^preclear_disk_' | grep -v '^preclear_disk_report_')
+
+if [ -n "$preclear_sessions" ]; then
+	echo "ERROR: Stop all preclear sessions before removing &name;."
+	exit 1
+fi
+
+#
 # umount disks and smb mounts
 #
 echo -n "Unmounting all devices: "
-/usr/local/emhttp/plugins/&plugin;/scripts/rc.unassigned umount all 2>/dev/null
+unmount_result=$(/usr/local/emhttp/plugins/&plugin;/scripts/rc.unassigned umount all 2>/dev/null)
 
+if [ "$unmount_result" != "success" ]; then
+	echo "ERROR: Uninstall stopped. Unmount all UD devices and remote shares, then retry."
+	exit 1
+fi
+
+#
+# Remove all UD mount points.
+#
 if mountpoint -q "/mnt/disks"; then
   umount "/mnt/disks"
 fi
@@ -641,9 +676,13 @@ if mountpoint -q "/mnt/rootshare"; then
 fi
 rmdir /mnt/rootshare 2>/dev/null
 
+#
+# Remove the plugin marker, utility symlinks, and udev rules.
+#
 rm -f /tmp/plugins/&plugin;.plg \
 	/usr/local/sbin/rc.unassigned \
 	/usr/local/sbin/mkmbr.sh \
+	/usr/local/sbin/ud_diagnostics \
 	/etc/udev/rules.d/99_persistent_unassigned.rules
 
 #
@@ -652,9 +691,11 @@ rm -f /tmp/plugins/&plugin;.plg \
 udevadm control --reload-rules
 
 #
-# Restore original Dynamix page
+# Restore the original Dynamix page if a saved copy exists.
 #
-mv -f /usr/local/emhttp/plugins/dynamix/OpenDevices.page- /usr/local/emhttp/plugins/dynamix/OpenDevices.page
+if [ -f /usr/local/emhttp/plugins/dynamix/OpenDevices.page- ]; then
+	mv -f /usr/local/emhttp/plugins/dynamix/OpenDevices.page- /usr/local/emhttp/plugins/dynamix/OpenDevices.page
+fi
 
 #
 # Remove plugin related directories.

@@ -4,6 +4,47 @@ The **Next** series continues development of the plugins by the original author 
 
 Development of the plugins will continue with ongoing maintenance, reliability improvements, and enhancements.
 
+## Unassigned Devices - Next / Unassigned Devices Preclear - Next / Unassigned Devices Plus - Next
+
+## 2026.11.01
+
+## Unassigned Devices - Next
+### Fixes
+- Corrected mount-button status for disks with partitions but no filesystem.
+- Show -- when no filesystem is detected, including on ZFS volumes.
+- Improved reporting of filesystem detection mismatches with udev.
+- Associated preclear status indicators with the correct device when short serial numbers are duplicated.
+- Recognized verified preclear marker partitions, offering Format and Preclear consistently.
+- Removed both hash-keyed and legacy preclear resume files when formatting a disk.
+- Stopped installation and reported bundle extraction failures.
+- Prevented removal while preclear sessions are active or devices cannot be unmounted.
+- Cleared stale reboot-required status after successful mountpoint setup.
+- Improved uninstall cleanup of utility symlinks and restoration of the original Dynamix page.
+
+## Unassigned Devices Preclear - Next
+### Fixes
+- Identified disks by device path in queue and multi-disk actions.
+- Used a hash of the full disk serial for tmux sessions and resume files, retaining support for legacy sessions and resume files.
+- Matched individual-drive log links to the serial used in the preclear log.
+- Saved and displayed completed reports using the unique disk key, retaining support for legacy reports.
+- Recognized verified preclear markers exposed by Linux as partitions, including on disks larger than 2 TB.
+- Clarified that Resume All applies to paused sessions.
+- Stopped installation and reported bundle extraction failures.
+- Prevented removal while preclear sessions are active, paused, or queued.
+- Installed only the tmux and utempter packages appropriate for the Unraid version.
+- Cleared stale unsupported status after a successful tmux check.
+- Preserved existing root tmux configuration during installation.
+
+## Package Updates
+- Updated tmux and utempter packages.
+- Updated the enhanced preclear script to version 2.0.03.
+
+## Unassigned Devices Plus - Next
+### Updates and Fixes
+- Updated exfatprogs, libbsd, libmd, and parted packages.
+- Corrected the legacy plugin conflict message.
+- Reported missing exFAT utilities while continuing to link the remaining available tools.
+
 ## Unassigned Devices - Next / Unassigned Devices Preclear - Next
 
 ## 2026.10.25
