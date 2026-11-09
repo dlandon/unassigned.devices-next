@@ -4,6 +4,34 @@ The **Next** series continues development of the plugins by the original author 
 
 Development of the plugins will continue with ongoing maintenance, reliability improvements, and enhancements.
 
+## Unassigned Devices - Next / Unassigned Devices Preclear - Next
+
+## 2026.11.09
+
+## Unassigned Devices - Next
+### Fixes and Improvements
+- Improve installation reliability and preserve the current plugin bundle during cleanup.
+- Prevent removal while preclear jobs are active or devices cannot be unmounted, while allowing removal when only completed sessions remain.
+- Improve uninstall cleanup and restore the original Dynamix page only when a saved copy exists.
+- Clear stale reboot-required status after successful mountpoint setup.
+- Recognize precleared disks with visible marker partitions and consistently offer Format and Preclear.
+- Validate SMB credentials and share access before saving remote shares, with clearer messages and failure logging.
+- Report conflicting unmount requests as failures.
+- Protect disk spin status updates from concurrent changes.
+- Handle incomplete partition information during hot-plug discovery without PHP warnings.
+- Use explicit device arguments when processing nested mount and unmount requests.
+
+## Unassigned Devices Preclear - Next
+### Fixes and Improvements
+- Install the appropriate tmux and utempter packages for each Unraid version.
+- Preserve existing root tmux configuration and clear stale unsupported status after successful validation.
+- Recognize and verify precleared disks with visible marker partitions, including disks larger than 2 TB.
+- Preserve the current plugin bundle during cleanup.
+- Avoid unnecessary disk probing so idle disks can remain spun down, while discovering sleeping candidates during installation.
+- Allow plugin removal when only completed preclear sessions remain, while continuing to protect active jobs.
+- Start fresh disk writes at byte zero to prevent leftover partition metadata.
+- Remove temporary resume files after completion to prevent unnecessary Resume prompts.
+
 ## Unassigned Devices - Next / Unassigned Devices Preclear - Next / Unassigned Devices Plus - Next
 
 ## 2026.11.01

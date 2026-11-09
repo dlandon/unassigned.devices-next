@@ -3,13 +3,13 @@
 <!ENTITY name		"unassigned.devices-next">
 <!ENTITY plugin		"unassigned.devices">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.11.01">
+<!ENTITY version	"2026.11.09">
 <!ENTITY launch		"Main/UnassignedDevices">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/&name;/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/&name;/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/&name;/discussions/">
-<!ENTITY MD5		"714e015518f24ebabe5dd98fa1ee3e8a">
+<!ENTITY MD5		"a6a214624b825474159e8485a3e3c7e9">
 ]>
 
 <PLUGIN name="&plugin;"
@@ -24,17 +24,27 @@
 <CHANGES>
 ##&name;
 ###&version;
-- Fix: Corrected the mount-button status for disks with partitions but no filesystem.
-- Fix: Show '--' in the FSType column when no filesystem is detected, including on ZFS volumes.
-- Fix: Verify filesystem detection against udev so mismatches are reported as a Udev issue.
-- Fix: Associate preclear status indicators with the correct device when short serial numbers are duplicated.
-- Fix: Remove hash-keyed and legacy preclear resume files when formatting a disk.
 - Fix: Stop installation and report bundle extraction failures.
 - Fix: Prevent removal while preclear sessions are active or devices cannot be unmounted.
 - Fix: Clear stale reboot-required status after successful mountpoint setup.
 - Fix: Remove the diagnostics utility symlink during uninstall.
 - Fix: Restore the original Dynamix page only when its saved copy exists.
 - Fix: Recognize verified preclear marker partitions and offer Format and Preclear consistently with partitionless precleared disks.
+- Fix: Improve old bundle cleanup to preserve the exact current installation bundle.
+- Fix: Validate SMB share credentials and access before adding a remote share.
+- Fix: Reject inaccessible SMB shares and log authentication or access failures when addng a remote SMB share.
+- Fix: Clarify SMB share discovery and credential validation messages.
+- Fix: Report conflicting unmount requests as failures.
+- Fix: Protect disk spin status updates from concurrent changes.
+- Fix: Allow plugin removal when only completed preclear sessions remain open.
+- Fix: Incomplete disk and partition data handling during hotplug.
+
+###2026.11.01
+- Fix: Corrected the mount-button status for disks with partitions but no filesystem.
+- Fix: Show '--' in the FSType column when no filesystem is detected, including on ZFS volumes.
+- Fix: Verify filesystem detection against udev so mismatches are reported as a Udev issue.
+- Fix: Associate preclear status indicators with the correct device when short serial numbers are duplicated.
+- Fix: Remove hash-keyed and legacy preclear resume files when formatting a disk.
 
 ###2026.10.25
 - Fix: Minor UI fixes on Unassigned Devices page and dashboard.
@@ -307,7 +317,11 @@ rm -rf /usr/local/emhttp/plugins/&plugin;/*
 #
 # Remove old 'bundle' files.
 #
-rm -f $(ls /boot/config/plugins/&plugin;/*.tgz 2>/dev/null | grep -v '&version;')
+for bundle in /boot/config/plugins/&plugin;/*.tgz; do
+	if [[ -f "$bundle" &amp;&amp; "$bundle" != "/boot/config/plugins/&plugin;/&name;-&version;.tgz" ]]; then
+		rm -f -- "$bundle"
+	fi
+done
 
 #
 # Remove old add-smb file
@@ -632,12 +646,10 @@ The 'remove' script.
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
 #
-# Block removal while preclear sessions are active, paused, or queued.
-# Exclude temporary report-viewer sessions.
+# Block removal while a preclear script is running, paused, or queued.
+# Completed sessions left at a shell prompt do not count.
 #
-preclear_sessions=$(/usr/bin/tmux list-sessions -F '#{session_name}' 2>/dev/null | grep '^preclear_disk_' | grep -v '^preclear_disk_report_')
-
-if [ -n "$preclear_sessions" ]; then
+if /usr/bin/pgrep -f '(^|[[:space:]/])preclear_(disk|disk_ori|disk_docker|binhex)[.]sh([[:space:]]|$)' >/dev/null 2>&amp;1; then
 	echo "ERROR: Stop all preclear sessions before removing &name;."
 	exit 1
 fi

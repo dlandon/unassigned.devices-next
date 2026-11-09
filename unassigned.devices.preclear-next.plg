@@ -3,14 +3,14 @@
 <!ENTITY name		"unassigned.devices.preclear-next">
 <!ENTITY plugin		"unassigned.devices.preclear">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.11.01">
+<!ENTITY version	"2026.11.09">
 <!ENTITY launch		"Tools/Preclear">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/unassigned.devices-next/discussions/">
 <!ENTITY packages	"/boot/config/plugins/&plugin;/packages">
-<!ENTITY MD5		"dcfeb993fb167bd6327e72e9c77940ba">
+<!ENTITY MD5		"1db7e1f15dd410049a4f32ed0f6a3bcc">
 ]>
 <PLUGIN name="&plugin;"
 		author="&author;"
@@ -24,6 +24,19 @@
 <CHANGES>
 ###&name;
 ###&version;
+- Fix: Install only the tmux and utempter packages appropriate for the Unraid version.
+- Fix: Clear stale unsupported status after a successful tmux check.
+- Fix: Preserve existing root tmux configuration during installation.
+- Fix: Discover and allow signature verification on precleared disks whose marker is exposed by Linux as a partition, including disks larger than 2 TB.
+- Fix: Improve old bundle cleanup to preserve the exact current installation bundle.
+- Fix: Avoid unnecessary disk probing so idle disks can remain spun down.
+- Fix: Discover sleeping preclear candidates during installation.
+- Fix: Allow plugin removal when only completed preclear sessions remain open.
+- Fix: Prevent skipping the first write block and leaving stale partition metadata.
+- Fix: Preserve saved write offsets when resuming.
+- Fix: Remove temporary resume file after preclear completes so resume doesn't show when doing subsequent preclear operations.
+
+### 2026.11.01
 - Fix: Update tmux and utempter packages.
 - Fix: Identify disks by device path in queue and multi-disk actions.
 - Fix: Use a hash of the full disk serial for tmux sessions and resume files; retain support for legacy sessions and resume files.
@@ -32,10 +45,6 @@
 - Fix: Clarify that Resume All applies to paused sessions by updating the tooltip.
 - Fix: Stop installation and report bundle extraction failures.
 - Fix: Prevent removal while preclear sessions are active, paused, or queued.
-- Fix: Install only the tmux and utempter packages appropriate for the Unraid version.
-- Fix: Clear stale unsupported status after a successful tmux check.
-- Fix: Preserve existing root tmux configuration during installation.
-- Fix: Discover and allow signature verification on precleared disks whose marker is exposed by Linux as a partition, including disks larger than 2 TB.
 
 ###2026.10.25
 - Fix: Preclear log missing done button and some refactoring for robustness.
@@ -215,7 +224,11 @@ rm -rf /usr/local/emhttp/plugins/&plugin;/*
 #
 # Remove old 'bundle' files.
 #
-rm -f $(ls /boot/config/plugins/&plugin;/&name;*.tgz 2>/dev/null | grep -v '&version;')
+for bundle in /boot/config/plugins/&plugin;/&name;*.tgz; do
+	if [[ -f "$bundle" &amp;&amp; "$bundle" != "/boot/config/plugins/&plugin;/&name;-&version;.tgz" ]]; then
+		rm -f -- "$bundle"
+	fi
+done
 </INLINE>
 </FILE>
 
@@ -310,7 +323,7 @@ echo "*.resume" > /boot/config/plugins/&plugin;/.gitignore
 #
 # Run diskinfo to get the initial unassigned devices information.
 #
-/etc/rc.d/rc.diskinfo force
+/etc/rc.d/rc.diskinfo install
 
 echo ""
 echo "-----------------------------------------------------------"
@@ -328,12 +341,10 @@ The 'remove' script.
 <FILE Run="/bin/bash" Method="remove">
 <INLINE>
 #
-# Block removal while preclear sessions are active, paused, or queued.
-# Exclude temporary report-viewer sessions.
+# Block removal while a preclear script is running, paused, or queued.
+# Completed sessions left at a shell prompt do not count.
 #
-preclear_sessions=$(/usr/bin/tmux list-sessions -F '#{session_name}' 2>/dev/null | grep '^preclear_disk_' | grep -v '^preclear_disk_report_')
-
-if [ -n "$preclear_sessions" ]; then
+if /usr/bin/pgrep -f '(^|[[:space:]/])preclear_(disk|disk_ori|disk_docker|binhex)[.]sh([[:space:]]|$)' >/dev/null 2>&amp;1; then
 	echo "ERROR: Stop all preclear sessions before removing &name;."
 	exit 1
 fi
@@ -346,9 +357,7 @@ fi
 #
 # Remove diskinfo
 #
-rm -f \
-	/var/local/emhttp/plugins/diskinfo/diskinfo.json \
-	/etc/rc.d/rc.diskinfo
+rm -f /var/local/emhttp/plugins/diskinfo/diskinfo.json /etc/rc.d/rc.diskinfo
 
 #
 # Remove plugin
