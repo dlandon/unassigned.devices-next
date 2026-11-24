@@ -4,6 +4,16 @@ The **Next** series continues development of the plugins by the original author 
 
 Development of the plugins will continue with ongoing maintenance, reliability improvements, and enhancements.
 
+## Unassigned Devices Preclear - Next
+
+## 2026.11.24
+
+### Fixes and Improvements
+- Refresh disk discovery when the Preclear page opens and use cached disk information for routine footer status updates.
+- Improve contrast for status text and action icons in the Preclear footer tooltip in both light and dark themes.
+- Update Preclear help to match the current Enhanced operation menu.
+- Add a Read Disk operation to the Enhanced script. It reads the entire disk and reports read errors without writing to the disk or verifying its preclear signature or data contents.
+
 ## Unassigned Devices - Next / Unassigned Devices Preclear - Next
 
 ## 2026.11.09

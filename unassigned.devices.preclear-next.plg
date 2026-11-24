@@ -3,14 +3,14 @@
 <!ENTITY name		"unassigned.devices.preclear-next">
 <!ENTITY plugin		"unassigned.devices.preclear">
 <!ENTITY author		"dlandon">
-<!ENTITY version	"2026.11.09">
+<!ENTITY version	"2026.11.24">
 <!ENTITY launch		"Tools/Preclear">
 <!ENTITY gitURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/master">
 <!ENTITY tgzURL		"https://raw.githubusercontent.com/&author;/unassigned.devices-next/v&version;">
 <!ENTITY pluginURL	"&gitURL;/&name;.plg">
 <!ENTITY supportURL	"https://github.com/dlandon/unassigned.devices-next/discussions/">
 <!ENTITY packages	"/boot/config/plugins/&plugin;/packages">
-<!ENTITY MD5		"1db7e1f15dd410049a4f32ed0f6a3bcc">
+<!ENTITY MD5		"2e1bc806603c1e08918cc6ac613f69c4">
 ]>
 <PLUGIN name="&plugin;"
 		author="&author;"
@@ -24,6 +24,12 @@
 <CHANGES>
 ###&name;
 ###&version;
+- Fix: Refresh disk discovery when the Preclear page opens. Routine footer status updates use cached disk information.
+- Fix: Improve contrast for status text and action icons in the Preclear footer tooltip in light and dark themes.
+- Fix: Revise the Preclear help to match the current Enhanced operation menu.
+- Add: Read Disk operation for the Enhanced script. Reads the entire disk and reports read errors without writing to the disk or checking its preclear signature or contents.
+
+### 2026.11.09
 - Fix: Install only the tmux and utempter packages appropriate for the Unraid version.
 - Fix: Clear stale unsupported status after a successful tmux check.
 - Fix: Preserve existing root tmux configuration during installation.
